@@ -1,0 +1,158 @@
+*{
+  margin: 0 ;
+  padding: 0;
+  box-sizing: border-box;
+}
+@media (min-width:640px) {
+  .top-nav-bar{
+    display: none;
+  }
+}
+@media (max-width:640px)  {
+  .side-nav-bar{
+    display: none !important;
+  }
+}
+:root {
+
+  --mainColor: rgb(240, 238, 226);
+  ;
+}
+
+body {
+  background-color: rgba(217, 214, 205, 0.692);
+  padding: 9px;
+
+ height: 100vb;
+font-family: Arial, Helvetica, sans-serif;
+
+}
+
+.main {
+  background-color:rgb(239, 237, 222);
+  display: flex;
+  height: 100%;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 1px 1px 10px rgb(104, 103, 103);
+
+
+}
+  .side-nav-bar{
+    border-radius:8px 0 0 8px ;
+    border-right: 2px dashed rgba(204, 154, 89, 0.327);
+    margin-right: 25px;
+  }
+  
+  .nav-link-side-nav{
+   color: rgba(204, 154, 89, 0.712); 
+   font-weight: 500;
+   margin-top: 5px  ;
+
+  }
+  
+  .nav-link-side-nav:hover{
+   background-color:rgba(204, 165, 114, 0.264);
+  color: #623e10;
+   box-shadow: 0px 5px 10px rgba(98, 62, 16, 0.282) inset;
+  }
+  .main-link-side-nav{
+       color: rgb(98, 62, 16);
+       font-weight: bold;
+        margin-left: 35px;
+   
+  }
+  .logo-img{
+    width: 80px;
+    margin-left: 38px;
+  }
+  .litt{
+    font-size: 1.1em;
+  }
+  .current-read{
+    margin: 0 auto 0 auto;
+    background-color: #b3b2b2a1;
+    padding:15px 40px 15px 40px;
+    border-radius: 16px 16px 0 0px;
+    text-align: center;
+     box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.282) inset;
+    
+  }
+   .current-read h6{
+   font-size: 12px;
+   font-weight: 700;
+     color: #623e10ab;
+  }
+  .current-read img{
+    height: 150px;
+    margin-bottom: 8px;
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.282) ;
+  }
+  .progress{
+   height: 8px;
+   border: 1px solid #9e9486;
+   margin: 0 auto 0 auto;
+   border-radius: 0;
+  }
+  
+  .progress-bar{
+     background-color: #a7712aac;
+  }
+  .person-info{
+    background-color: #b3b2b24e;
+    padding: 5px;
+    border-radius: 8px;
+    width: 190px;  
+     margin: 0 auto 0 auto;
+     display: flex;
+  }
+    
+ .person-info img{
+    height: 40px;
+    width: 40px;
+    object-fit:cover;
+    border-radius: 8px;
+  }
+  .person-info p ,.fa-chevron-right{
+ margin: auto 0 auto 6px;
+ font-size: 13px;
+ font-weight: 600;
+ 
+  }
+ .person-info:hover{
+ cursor: pointer;
+  }
+.inner-main{
+    background-color: rgba(208, 206, 195, 0.36) !important;
+    width: 100%;
+    border-radius: 20px;
+    padding: 30px;
+         box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.282) inset;
+  }
+  header{
+  width: 100%;
+  display: flex;
+  background-color:rgb(239, 237, 222);
+  padding: 8px;
+ border-radius: 13px;
+ 
+}
+header h4{
+  margin:auto 15px auto 0 ;
+  font-size: 14px;
+  font-weight: 700;
+background-color:rgba(204, 165, 114, 0.264);
+  color: #623e10;
+  padding: 12px;
+   border-radius: 10px;
+}
+.sear{
+  margin:auto 0 auto 0 ;
+
+}
+
+.sear i{
+position: relative;
+left: 10px;
+}
+
