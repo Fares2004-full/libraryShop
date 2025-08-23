@@ -39,8 +39,9 @@ body {
   background-color: rgba(217, 214, 205, 0.692);
   padding: 9px;
  height: 100dvh;
+ min-height: 8in;
 font-family: Arial, Helvetica, sans-serif;
-overflow: hidden;
+
 }
 
 .main {
@@ -84,6 +85,7 @@ overflow: hidden;
   .litt{
     font-size: 1.1em;
   }
+  
   .current-read{
     margin: 0 auto 0 auto;
      background-color: rgba(208, 206, 195, 0.36) !important;
@@ -114,6 +116,7 @@ overflow: hidden;
   .progress-bar{
      background-color: #a7712aac;
   }
+
   .person-info{
     background-color: #b3b2b24e;
     padding: 5px;
@@ -141,6 +144,7 @@ overflow: hidden;
 .inner-main{
     background-color: rgba(208, 206, 195, 0.36) !important;
     width: 100%;
+
     border-radius: 20px;
     padding: 30px;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.282) inset;
