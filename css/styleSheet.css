@@ -19,10 +19,14 @@
 }
 body {
  
- min-height: 700px !important;
+ min-height: 750px !important;
 
 }
-
+.inner-main{
+   
+    padding: 0px;
+ 
+  }
 
 }
 :root {
@@ -98,6 +102,7 @@ overflow: hidden;
     height: 150px;
     margin-bottom: 8px;
     box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.282) ;
+       border-radius: 2px;
   }
   .progress{
    height: 8px;
@@ -180,3 +185,77 @@ outline: none;
 box-shadow: none !important;
 border: none;
 }
+.main-books img{
+width:70px;
+height: 100%;
+   
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.282) ;
+    margin-bottom: 0;
+    border-radius: 2px;
+}
+.section1 h3{
+  color: #623e10;
+margin: 20px  0 20px 0;
+  font-size: 18px;  
+}
+.p{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  
+}
+.p p{
+font-size: 14px;
+color:  #60574a;
+cursor: pointer;
+}
+
+.shelve-section,.section1 h3{
+
+  margin-left: 25px;
+}
+.shelve-section{
+ 
+  display: flex;
+  gap: 10%;
+  width: 90%;
+  overflow: hidden;
+  position: relative;
+}
+
+
+
+.shelve{
+width: 100%;
+height: 20px;
+  background-color: rgba(217, 214, 205, 0.692);
+border-radius: 2px 2px 6px 6px ;
+border-top:4px solid rgb(229, 228, 218);
+box-shadow: 6px 5px 10px rgba(0, 0, 0, 0.089)  ;
+ display: flex ;
+  gap: 9% !important;
+  
+}
+
+
+.section1 .progress{
+   height: 8px;
+   width: 70px;
+   border: 1px solid #9e9486;
+   margin: 2px auto 0 auto;
+   border-radius: 2px;
+   margin-left: 0.01px;
+   margin-right: 0.01px;
+
+  }
+  .section1 .progress:first-child{
+   margin-left: 25px;
+  }
+  
+  .section1 .progress-bar{
+     background-color: #a7712aac;
+  }
+  .section1{
+    height: auto;
+
+  }
