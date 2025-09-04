@@ -1,87 +1,90 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>My Library</title>
   <link rel="stylesheet" href="bootstrap-5.3.7-dist/css/bootstrap.min.css">
 
-   <link rel="stylesheet" href="fontawesome-free-7.0.0-web/css/all.min.css">
+  <link rel="stylesheet" href="fontawesome-free-7.0.0-web/css/all.min.css">
   <link rel="stylesheet" href="css/styleSheet.css">
-  
 
-  
+
+
 </head>
 
 <body>
- <div class="main">
-  <nav class="navbar bg-body-tertiary fixed-top top-nav-bar">
-  <div class="container-fluid">
-     <!-- Start of header nav -->
-    <a class="navbar-brand" href="#">Offcanvas navbar</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-   <!-- end of header nav -->
+  <div class="main">
+    <nav class="navbar bg-body-tertiary fixed-top top-nav-bar">
+      <div class="container-fluid">
+        <!-- Start of header nav -->
+        <a class="navbar-brand" href="#">Offcanvas navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+          aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- end of header nav -->
 
-   
-    <!-- Start of sideToggle -->
-    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+        <!-- Start of sideToggle -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="myLibrary.html">My library</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">Shop</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">News</a>
+              </li>
+            </ul>
+
+          </div>
+        </div>
+        <!-- End of sideToggle -->
       </div>
-      <div class="offcanvas-body">
-        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">My library</a>
-          </li>
-      <li class="nav-item">
-            <a class="nav-link" href="#">Shop</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">News</a>
-          </li>
-        </ul>
-      
-      </div>
-    </div>
-    <!-- End of sideToggle -->
-  </div>
-</nav>
+    </nav>
     <!-- Start of sidenav -->
-<div class="d-flex flex-column flex-shrink-0 p-3   side-nav-bar" style="width: 230px; height:100%;"  > 
-   <img src="images/vecteezy_black-and-white-open-book-vector-logo-illustration-on-white_6115725 [Converted].png" class="logo-img">
-  <a href="#"class="d-flex align-items-center mb-4 mb-md-0 me-md-auto text-decoration-none main-link-side-nav"> 
+    <div class="d-flex flex-column flex-shrink-0 p-3   side-nav-bar" style="width: 230px; height:100%;">
+      <img src="images/vecteezy_black-and-white-open-book-vector-logo-illustration-on-white_6115725 [Converted].png"
+        class="logo-img">
+      <a href="#" class="d-flex align-items-center mb-4 mb-md-0 me-md-auto text-decoration-none main-link-side-nav">
 
-    <span class="fs-4 mb-5 "><span class="litt">Ka</span>lim<span class="litt">at</span></span> </a>
+        <span class="fs-4 mb-5 "><span class="litt">Ka</span>lim<span class="litt">at</span></span> </a>
 
-  <ul class="nav nav-pills flex-column mb-auto">
-    <li class="nav-item"> <a href="#" class="nav-link nav-link-side-nav">
-         <i class="fas fa-home"></i> Home
-      </a> </li>
-    <li> <a href="#" class="nav-link  nav-link-side-nav">
-       <i class="fas fa-bookmark"></i>  My library
-      </a> </li>
-    <li> <a href="#" class="nav-link nav-link-side-nav">
-        <i class="fas fa-shop"></i> Shop
-      </a> </li>
-    <li> <a href="#" class="nav-link nav-link-side-nav">
-       <i class="fas fa-bullhorn"></i> News
-      </a> </li>
-    
-  </ul>
- 
-     <div class="current-read">
-      <h6>Continue reading</h6>
-      <img src="images/image3.jpeg">
-      
-      <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"> 
-        <div class="progress-bar " style="width:25%;"></div> 
-      </div>
+      <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item"> <a href="#" class="nav-link nav-link-side-nav">
+            <i class="fas fa-home"></i> Home
+          </a> </li>
+        <li> <a href="myLibrary.html" class="nav-link  nav-link-side-nav">
+            <i class="fas fa-bookmark"></i> My library
+          </a> </li>
+        <li> <a href="#" class="nav-link nav-link-side-nav">
+            <i class="fas fa-shop"></i> Shop
+          </a> </li>
+        <li> <a href="#" class="nav-link nav-link-side-nav">
+            <i class="fas fa-bullhorn"></i> News
+          </a> </li>
+
+      </ul>
+
+      <div class="current-read">
+        <h6>Continue reading</h6>
+        <img src="images/image3.jpeg">
+
+        <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress-bar " style="width:25%;"></div>
+        </div>
 
       </div>
 
@@ -90,121 +93,128 @@
         <p>Fares Mohamed</p>
         <i class="fas fa-chevron-right"></i>
       </div>
-      </div>
-            <!-- Start of sidenav -->
-
-<div class="inner-main"> 
-  <header>
-   <h4>Shelves</h4>
-    
-  <!-- Search Bar Section -->
-<div class="search-bar d-flex align-items-center  rounded">
-
-  <div class="input-group">
-    <span class="input-group-text  border-end-0">
-      <i class="fas fa-search"></i>
-    </span>
-    <input type="text" class="form-control border-start-0" placeholder="Search in My library">
-  </div>
-</div>
-</header>
-
-<main>
-  <section class="section1">
-    <div class="content">
-      <div> <h3>Currently reading</h3>
-      <p></p>
-      </div>
-     
-      <div class="shelve-section">
-
-
-       <div class="main-books"><img src="images/books/1984.jpg" alt=""></div>
-       <div class="main-books"><img src="images/image3.jpeg" alt=""></div>
-       <div class="main-books"><img src="images/books/image1.jpeg" alt="">
-      </div>
-
-
-      
-
-      </div>
-
-
-      <div class="shelve">
-        <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"> 
-        <div class="progress-bar " style="width:80%;"></div> 
-      </div>
-      
-       <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"> 
-        <div class="progress-bar " style="width:25%;"></div> 
-      </div>
-      
-         <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"> 
-        <div class="progress-bar " style="width:70%;"></div> 
-      </div>
-      </div>
-
-
-      </div>
-      
-    <div class="content">
-      <div class="p"> <h3>Next up</h3>
-      <p>Full Shelve  <i class="fas fa-chevron-right"></i></p></div>
-     
-
-      <div class="shelve-section">
-
-       <div class="main-books"><img src="images/books/1984.jpg" alt=""></div>
-       <div class="main-books"><img src="images/image3.jpeg" alt=""></div>
-       <div class="main-books"><img src="images/books/image1.jpeg" alt="">
-      </div>
-
-        <div class="main-books"><img src="images/books/1984.jpg" alt=""></div>
-       <div class="main-books"><img src="images/image3.jpeg" alt=""></div>
-       <div class="main-books"><img src="images/books/image1.jpeg" alt="">
-      </div>
-
-
-      </div>
-      <div class="shelve">
-        
-      </div>
-
-
-      </div>
-
-      <div class="content">
-      <h3>Finished</h3>
-
-      <div class="shelve-section">
-       <div class="main-books"><img src="images/books/1984.jpg" alt=""></div>
-       <div class="main-books"><img src="images/image3.jpeg" alt=""></div>
-       <div class="main-books"><img src="images/books/image1.jpeg" alt="">
-        
-      
-      
-      </div>
-      </div>
-      <div class="shelve">
-  </div>
-      </div>
-      
-
-
     </div>
-    
+    <!-- Start of sidenav -->
+
+    <div class="inner-main">
+      <header>
+        <h4>Shelves</h4>
+
+        <!-- Search Bar Section -->
+        <div class="search-bar d-flex align-items-center  rounded">
+
+          <div class="input-group">
+            <span class="input-group-text  border-end-0">
+              <i class="fas fa-search"></i>
+            </span>
+            <input type="text" class="form-control border-start-0" placeholder="Search in My library">
+          </div>
+        </div>
+      </header>
+
+      <main>
+        <section class="section1">
+          <div class="content">
+            <div>
+              <h3>Currently reading</h3>
+              <p></p>
+            </div>
+
+            <div class="shelve-section shelve-section1">
+
+
+              <div class="main-books"  id="d"><img src="images/books/1984.jpg" alt=""></div>
+              <div class="main-books" ><img src="images/image3.jpeg" alt=""></div>
+              <div class="main-books"><img src="images/books/image1.jpeg" alt="">
+              </div>
+
+            </div>
+
+
+            <div class="shelve">
+              <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar " style="width:80%;"></div>
+              </div>
+
+              <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar " style="width:25%;"></div>
+              </div>
+
+              <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar " style="width:70%;"></div>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="content">
+            <div class="p">
+              <h3>Next up</h3>
+              <p>Full Shelve <i class="fas fa-chevron-right"></i></p>
+            </div>
+
+
+            <div class="shelve-section shelve-section2">
+
+              <div class="main-books" id="fares">
+                <img src="images/books/1984.jpg" alt="">
+              </div>
+
+              <div class="main-books"><a href="details.html"><img src="images/image3.jpeg" alt=""></a>
+              </div>
+              <div class="main-books"><img src="images/books/image1.jpeg" alt="">
+              </div>
+
+              <div class="main-books"><img src="images/books/1984.jpg" alt=""></div>
+              <div class="main-books"><img src="images/image3.jpeg" alt=""></div>
+              <div class="main-books"><img src="images/books/image1.jpeg" alt="">
+              </div>
+
+
+            </div>
+            <div class="shelve">
+
+            </div>
+
+
+          </div>
+
+          <div class="content">
+            <h3>Finished</h3>
+
+            <div class="shelve-section shelve-section3">
+
+           
+
+
+            </div>
+          </div>
+          <div class="shelve">
+
+          </div>
+    </div>
+
+
+
+  </div>
+
   </section>
 
-  
-</main>
- 
- </div>
 
-    </div>
+  </main>
 
-<script src="bootstrap-5.3.7-dist/js/popper.min.js"></script>
-<script src="bootstrap-5.3.7-dist/js/jquery-3.7.1.min.js"></script>
-<script src="bootstrap-5.3.7-dist/js/bootstrap.js"></script>
+  </div>
+
+  </div>
+
+  <script src="bootstrap-5.3.7-dist/js/popper.min.js"></script>
+  <script src="bootstrap-5.3.7-dist/js/jquery-3.7.1.min.js"></script>
+  <script src="bootstrap-5.3.7-dist/js/bootstrap.js"></script>
+    <script src="javascript/library.js"></script>
+
+
 
 </body>
+
 </html>

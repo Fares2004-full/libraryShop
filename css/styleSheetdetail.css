@@ -1,322 +1,657 @@
-*{
-  margin: 0 ;
+/* ----------------------------------------
+   RESET & GLOBAL STYLES
+---------------------------------------- */
+* {
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-@media (max-width: 991.98px) {
-  
-   .side-nav-bar{
-  display: none !important;
-  }
-
-  body {
- min-height: 750px !important;
- height: 100%;
-}
-}
-
-@media (max-width: 767.98px) {
- .description span img{
-display: block;
-margin: 0 auto 0 auto;
-transform: scale(1.4);
-margin-bottom: 10px;
-}
-.description span{
-text-align: center;
-}
-.name{
-margin: 0 !important;
-text-align: center;
-}
-
- .book-info {
-  padding: 20px !important;
-}
-
-  .inner-icons{
-   height: 100px;
-  flex-direction: column;
-
-}
-
-}
-
-/* Extra Small - موبايل صغير */
-@media (max-width: 575.98px) {
-.inner-main{
-  padding: 5px !important;
-  }
-
-}
-
-/* Small - موبايل */
-@media (min-width: 576px) and (max-width: 767.98px) {
-.inner-main{
-    padding: 0px;
-  }
-}
-
-/* Medium - تابلت */
-@media (min-width: 768px) and (max-width: 991.98px) {
-.inner-main{
-    padding: 0px;
-  } 
-body{
-height: 100vh !important;
-  }
-}
-
-/* Large - لابتوب متوسط */
-@media (min-width: 992px) and (max-width: 1399.98px) {
- .top-nav-bar{ 
-    display: none;
-  }
-.book{
-  height: 250px;
-}
-
-.book img{
-  height: 270px;
-    
-}
-
-
-}
-
-/* XXL - شاشات ضخمة */
-@media (min-width: 1400px) {
-   .top-nav-bar{ 
-    display: none;
-  }
-.book{
-  height: 250px;
-}
-
-}
-
-
 :root {
-
   --mainColor: rgb(240, 238, 226);
-  --app-height:100%;
+  --app-height: 100%;
 }
 
 body {
   background-color: rgba(217, 214, 205, 0.692);
   padding: 9px;
- height: 100%;
- min-height: 8in;
-font-family: Arial, Helvetica, sans-serif;
+  height: 100%;
+  min-height: 8in;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ----------------------------------------
+   RESPONSIVE MEDIA QUERIES
+---------------------------------------- */
+
+/* Large devices < 992px (Tablet & Mobile) */
+@media (max-width: 991.98px) {
+  .side-nav-bar {
+    display: none !important;
+    /* إخفاء الـ sidebar في الشاشات الصغيرة */
+  }
+
+  body {
+    min-height: auto !important;
+    height: 100%;
+  }
+
+  .main {
+    padding: 25px !important;
+  }
+
+  .top-nav-bar {
+    display: none !important;
+  }
+
+  #navbar-brand2 {
+    display: none;
+    margin: 0;
+  }
+
+  #navbar-brand1 {
+    opacity: 1;
+    margin: 0;
+  }
+
+  header {
+    justify-content: space-between !important;
+    height: 50px;
+  }
 
 }
 
+/* Small devices < 768px */
+@media (max-width: 767.98px) {
+  .description span img {
+    display: block;
+    margin: 0 auto 10px auto;
+    transform: scale(1.4);
+  }
+
+  .description span {
+    text-align: center;
+  }
+
+  .name {
+    margin: 0 !important;
+    text-align: center;
+  }
+
+  .book-info {
+    padding: 20px !important;
+  }
+
+  .inner-icons {
+    height: 100px;
+    flex-direction: column;
+  }
+
+  .main {
+    padding: 5px !important;
+  }
+
+  .last-section {
+    flex-direction: column !important;
+  }
+
+  .links {
+    display: none;
+  }
+}
+
+/* Extra Small devices < 576px */
+@media (max-width: 575.98px) {
+  .inner-main {
+    padding: 5px !important;
+  }
+}
+
+/* Small devices 576px–767.98px */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .inner-main {
+    padding: 0px;
+  }
+}
+
+/* Medium devices 768px–991.98px */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .inner-main {
+    padding: 0px;
+  }
+
+  body {
+    height: 100vh !important;
+  }
+
+  header {
+    height: 50px;
+  }
+
+  #navbar-brand1 {
+    position: relative;
+    bottom: 10px;
+    margin: 0;
+  }
+
+  .sid-nav-bar-butt {
+    display: none;
+  }
+
+
+}
+
+/* Large devices 992px–1399.98px */
+@media (min-width: 992px) and (max-width: 1399.98px) {
+  .top-nav-bar {
+    display: none;
+  }
+
+  .book {
+    height: 250px;
+  }
+
+  .book img {
+    height: 270px;
+  }
+
+
+  .navbar .container-fluid {
+    justify-content: space-between !important
+  }
+
+}
+
+/* Extra Large devices ≥ 1400px */
+@media (min-width: 1400px) {
+  .top-nav-bar {
+    display: none;
+  }
+
+  .book {
+    height: 250px;
+  }
+
+  /* .sid-nav-bar-butt{
+    position: relative !important;
+    left: 40%;
+    
+  } */
+
+}
+
+/* ----------------------------------------
+   MAIN LAYOUT
+---------------------------------------- */
 .main {
-  background-color:rgb(239, 237, 222);
+  background-color: rgb(239, 237, 222);
   display: flex;
-  height: var(--app-height);
+  flex-direction: column;
+  height: 97.5dvh;
+  /* ملء الشاشة بالكامل */
   border-radius: 8px;
   padding: 25px;
+  padding-top: 0;
+  padding-left: 0;
   box-shadow: 1px 1px 10px rgb(104, 103, 103);
-
-
+  overflow: hidden;
+  /* منع تمرير الصفحة كلها */
 }
-  .side-nav-bar{
-    border-radius:8px 0 0 8px ;
-    border-right: 2px dashed rgba(204, 154, 89, 0.327);
-    margin-right: 25px;
-     min-height: 90vh !important;
-  }
-  
-  .nav-link-side-nav{
-   color: rgba(204, 154, 89, 0.712); 
-   font-weight: 500;
-   margin-top: 5px  ;
 
-  }
-  
-  .nav-link-side-nav:hover{
-   background-color:rgba(204, 165, 114, 0.264);
+/* الحاوية اللي فيها sidebar + inner-main */
+.main>.d-flex {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  /* ضروري عشان inner-main يقدر يعمل scroll */
+  overflow: hidden;
+}
+
+.links {
+  display: flex;
+  list-style: none;
+  display: none;
+  gap: 10px;
+}
+
+.links li a {
+  text-decoration: none;
+  font-size: 16px;
+  color: rgba(204, 154, 89, 0.581);
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.links li a:hover {
+  background-color: rgba(204, 165, 114, 0.264);
   color: #623e10;
-   box-shadow: 0px 5px 10px rgba(98, 62, 16, 0.282) inset;
-  }
-  .main-link-side-nav{
-       color: rgb(98, 62, 16);
-       font-weight: bold;
-        margin-left: 35px;
-   
-  }
-  .logo-img{
-    width: 80px;
-    margin-left: 38px;
-  }
-  .litt{
-    font-size: 1.1em;
-  }
-
-
-  .person-info{
-    background-color: #b3b2b24e;
-    padding: 5px;
-    border-radius: 8px;
-    width: 190px;  
-     margin: 0 auto 0 auto;
-     display: flex;
-  }
-    
- .person-info img{
-    height: 40px;
-    width: 40px;
-    object-fit:cover;
-    border-radius: 8px;
-  }
-  .person-info p ,.fa-chevron-right{
- margin: auto 0 auto 6px;
- font-size: 13px;
- font-weight: 600;
- 
-  }
- .person-info:hover{
- cursor: pointer;
-  }
-
-  
-.inner-main{
-    background-color: rgba(208, 206, 195, 0.36) !important;
-    width: 100%;
-
-    border-radius: 20px;
-    padding: 30px;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.282) inset;
-  }
-  /* book section  */
-.book-cover{
-   width: auto;
-   height: 320px;
-   
-   padding: 0;
-   box-shadow:  10px 5px 15px  2px rgba(0, 0, 0, 0.6); 
-   border-radius: 2px; 
-   transition: 0.4s;
-}
-.book-cover:hover {
- translate: 0 -10px;
+  box-shadow: 0px 5px 10px rgba(98, 62, 16, 0.282) inset;
 
 }
-.book-info{
- max-width: 450px;
+
+
+
+/* 
+remove squ
+*/
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  /* دي أهم واحدة */
 }
 
-.bock h1{
- font-size: 40px;
- font-weight: 600;
+.navbar-toggler {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  /* دي أهم واحدة */
 }
 
-.book-info h5{
- font-size: 15px;
- margin-top: 18px;
- margin-bottom: 18px;
- font-weight: 700;
+/* .sid-nav-bar-butt {
+  margin-left: 0 !important;
+  margin-right: auto !important;
+} */
+/* 
+remove squ
+*/
+
+/* ----------------------------------------
+   SIDEBAR
+---------------------------------------- */
+.side-nav-bar {
+  flex: 0 0 230px;
+  /* العرض الافتراضي */
+  height: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  border-radius: 8px 0 0 8px;
+  border-right: 2px dashed rgba(204, 154, 89, 0.327);
+  margin-right: 25px;
+  min-height: 90vh;
+  transition: flex-basis .35s ease, padding .25s ease, width .35s ease;
+  overflow: hidden;
 }
-.book-info p{
-font-size: 15px;
-line-height: 23px;
-font-style: italic;
-letter-spacing: 0.5px;
+
+.side-nav-bar li a {
+  height: 40px
 }
-  /* book section  */
+
+.side-nav-bar li a p {
+  margin: 0;
+
+}
+
+/* الحالة عند الـ toggle (تصغير الـ sidebar) */
+.side-nav-bar.side-bar-new-style {
+  flex-basis: 56px;
+  padding: 0 !important;
+  border-right: none !important;
+  margin-top: 100px;
+  /* background-color: #623e10; */
+}
+
+.side-bar-new-style p {
+  display: none !important;
+}
+
+.side-bar-new-style a {
+  margin-left: 25px !important;
+  margin-bottom: 15px !important;
+}
+
+.side-bar-new-style a i:hover {
+  color: #623e10 !important;
+}
 
 
-  /*  */
-  .info-section{
-    width: 90%;
-    margin: 0 auto 0 auto;
-    padding: 0 5%;
-    background-color:  rgba(242, 242, 242, 0.662) ;
-   border-radius: 2px;
-    box-shadow: 3px 3px 8px rgba(183, 182, 179, 0.5);
-  }
+/* تعديل اللوجو عند التصغير */
+.side-nav-bar .logo-img {
+  width: 80px;
+  margin-left: 38px;
+  transition: width .25s, margin .25s, transform .25s, opacity .25s;
+}
 
-.inner-icons{
+.side-nav-bar.side-bar-new-style .logo-img {
+  width: 38px;
+  margin-left: 6px;
+}
+
+/* الروابط داخل الـ sidebar */
+.nav-link-side-nav {
+  color: rgba(204, 154, 89, 0.712);
+  font-weight: 500;
+  margin-top: 5px;
+  white-space: nowrap;
   display: flex;
   align-items: center;
-   gap: 10%;
+  gap: 10px;
+}
+
+.nav-link-side-nav i {
+  margin-right: 5px;
+}
+
+/* عند التصغير: إخفاء النصوص + تصغير الأيقونات */
+.side-nav-bar.side-bar-new-style .nav-link-side-nav {
+  justify-content: center;
+  padding-left: 0;
+}
+
+.side-nav-bar.side-bar-new-style .nav-link-side-nav p {
+  display: none;
+}
+
+.side-nav-bar.side-bar-new-style .nav-link-side-nav i {
+  display: block;
+  margin: 12px auto;
+  font-size: 20px;
+}
+
+/* logo link */
+.main-link-side-nav {
+  color: rgb(98, 62, 16);
+  font-weight: bold;
+  margin-left: 35px;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+/* ----------------------------------------
+   LOGO & BRAND
+---------------------------------------- */
+.logo-togg {
+  display: none;
+}
+
+.logo-togg2 {
+  opacity: 1 !important;
+}
+
+.navbar-brand {
+  color: rgb(98, 62, 16);
+  font-weight: bold;
+  font-size: 25px;
+  margin-left: 100px;
+  opacity: 0;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+/* ----------------------------------------
+   PERSON INFO
+---------------------------------------- */
+.person-info {
+  background-color: #b3b2b24e;
+  padding: 5px;
+  border-radius: 8px;
+  width: 190px;
+  margin: 15px auto;
+  display: flex;
+
+}
+
+.person-info img {
+  height: 40px;
+  width: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.person-info p,
+.fa-chevron-right {
+  margin: auto 0 auto 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.person-info:hover {
+  cursor: pointer;
+}
+
+/* عند التصغير */
+.side-nav-bar.side-bar-new-style .person-info {
+  width: 56px;
+  padding: 6px;
+  flex-direction: column;
+  align-items: center;
+}
+
+.side-nav-bar.side-bar-new-style .person-info img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.side-nav-bar.side-bar-new-style .person-info p,
+.side-nav-bar.side-bar-new-style .person-info .fa-chevron-right {
+  display: none;
+}
+
+/* ----------------------------------------
+   INNER MAIN CONTENT (SCROLL AREA)
+---------------------------------------- */
+.inner-main {
+  background-color: rgba(208, 206, 195, 0.36) !important;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.282) inset;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  /* Scroll هنا بس */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* إخفاء الـ scrollbar */
+.inner-main::-webkit-scrollbar {
+  display: none;
+}
+
+.inner-main {
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+/* لو عندك navbar ثابت فوق */
+.main.with-fixed-top-nav .inner-main {
+  padding-top: 60px;
+}
+
+/* ----------------------------------------
+   HOVER EFFECTS
+---------------------------------------- */
+.hover:hover {
+  background-color: rgba(204, 165, 114, 0.264);
+  color: #623e10;
+  box-shadow: 0px 5px 10px rgba(98, 62, 16, 0.282) inset;
+}
+
+/* ----------------------------------------
+   BOOK SECTION
+---------------------------------------- */
+.book-cover {
+  width: auto;
+  height: 320px;
+  padding: 0;
+  box-shadow: 10px 5px 15px 2px rgba(0, 0, 0, 0.6);
+  border-radius: 2px;
+  transition: 0.4s;
+}
+
+.book-cover:hover {
+  translate: 0 -10px;
+}
+
+.book-info {
+  max-width: 450px;
+}
+
+.bock h1 {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.book-info h5 {
+  font-size: 15px;
+  margin: 18px 0;
+  font-weight: 700;
+}
+
+.book-info p {
+  font-size: 15px;
+  line-height: 23px;
+  font-style: italic;
+  letter-spacing: 0.5px;
+}
+
+/* ----------------------------------------
+     INFO SECTION
+---------------------------------------- */
+.info-section {
+  width: 90%;
+  margin: 0 auto;
+  padding: 0 5%;
+  background-color: rgba(242, 242, 242, 0.662);
+  border-radius: 2px;
+  box-shadow: 3px 3px 8px rgba(183, 182, 179, 0.5);
+}
+
+.inner-icons {
+  display: flex;
+  align-items: center;
+  gap: 10%;
   justify-content: end;
   padding: 8px;
 }
 
-
-
-.reading{
+.reading {
   background: black;
   border: none;
-  padding: 8px 15px; 
+  padding: 8px 15px;
   border-radius: 20px;
   color: #ffffffd7;
   font-size: 15px;
-  justify-self: end !important;
   cursor: pointer;
 }
-.reading:hover{
-background: rgba(0, 0, 0, 0.759);
- 
+
+.reading:hover {
+  background: rgba(0, 0, 0, 0.759);
 }
-.book-icon{
+
+.book-icon {
   gap: 25px;
 }
 
-.book-icon div i{
- padding:6px 6px;
+.book-icon div i {
+  padding: 6px;
   border-radius: 50%;
   width: 30px;
   height: 30px;
   background-color: rgb(217, 214, 205);
-    cursor: pointer;  
+  cursor: pointer;
 }
-/*  */
 
-/* last section  */
-
-
-.description h4{
- margin-bottom: 20px;
- font-weight: 600;
- font-size: 17px;
+/* ----------------------------------------
+   DESCRIPTION & ABOUT BOOK
+---------------------------------------- */
+.description h4 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 17px;
 }
-.description p{
 
- font-size: 14px
- 
+.description p {
+  font-size: 14px;
 }
-.description span{
+
+.description span {
   display: block;
   font-weight: 700;
+}
 
+.description span img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
 }
- .description span img{
- height: 40px;
- width: 40px;
- border-radius: 50%;
- object-fit: cover;
-}
-.name{
+
+.name {
   margin-left: 40px;
-  
 }
-.about-book div{
+
+.about-book div {
   margin-top: 8%;
   line-height: 30px;
 }
 
-.about-book div h4{
- font-size: 18px;
- font-weight:600;
-}
-.about-book div p{
-   font-size: 14px;
+.about-book div h4 {
+  font-size: 18px;
+  font-weight: 600;
 }
 
+.about-book div p {
+  font-size: 14px;
+}
 
+.navbar {
+  justify-content: space-between !important;
+}
 
-/*  last section */
+/* aligh toggler to the left */
+.sid-nav-bar-butt {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+}
+
+/* realted book */
+.related-books {
+  display: flex;
+  gap: 20px;
+  flex-direction: column; 
+  padding-bottom: 10px;
+  margin-top: 40px;
+}
+.related-books h3{
+  font-size: 23px;
+  font-weight: 500;
+  font-style: italic;
+  text-align: center;
+  text-shadow: 3px  3px rgba(183, 182, 179, 0.5);
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+
+.related-book {
+  /* box-shadow: 3px 3px 8px rgba(183, 182, 179, 0.5); */
+  border-radius: 3px;
+  width: 230px;
+  height: auto;
+  padding: 0;
+ display: flex;
+ 
+}
+
+.related-book img {
+    width: 90px;
+    height: 100%;
+    box-shadow: 10px 5px 10px rgba(0, 0, 0, 0.282);
+    margin-bottom: 0;
+    border-radius: 4px;
+}
+.info{
+  padding: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+.info h5{
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: rgb(113, 99, 81);
+ 
+}
+.info p{
+  font-size: 14px;
+  color: gray;
+ 
+}
