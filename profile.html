@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Kalimat – Profile</title>
+  <link rel="stylesheet" href="bootstrap-5.3.7-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fontawesome-free-7.0.0-web/css/all.min.css">
+  <link rel="stylesheet" href="css/kalimat-shared.css">
+  <style>
+    /* active person-info highlight */
+    .person-info { background: var(--accent); border-color: var(--accent); }
+    .person-info p, .person-info i { color: #fff; }
+
+    /* PROFILE HERO */
+    .profile-banner {
+      background: linear-gradient(135deg, var(--brown), var(--brown-dark));
+      border-radius: var(--radius-lg); padding: 2rem; color: #fff;
+      display: flex; align-items: center; gap: 2rem;
+      margin-bottom: 2rem; position: relative; overflow: hidden;
+    }
+    .profile-banner::before { content: ''; position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.05); }
+    .avatar-wrap { position: relative; flex-shrink: 0; }
+    .avatar { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid var(--accent); }
+    .avatar-edit {
+      position: absolute; bottom: 0; right: 0;
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--accent); border: 2px solid #fff;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: .65rem; color: #fff;
+    }
+    .profile-info h2 { font-weight: 700; margin-bottom: 4px; }
+    .profile-info p  { opacity: .8; margin-bottom: 12px; font-size: .9rem; }
+    .profile-badges  { display: flex; gap: 8px; flex-wrap: wrap; }
+    .badge-pill { background: rgba(255,255,255,0.15); border-radius: 20px; padding: 4px 14px; font-size: .8rem; }
+    .btn-edit {
+      position: absolute; top: 1.5rem; right: 1.5rem;
+      background: rgba(255,255,255,0.15); color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px; padding: 6px 18px; font-size: .85rem; cursor: pointer;
+    }
+
+    /* STATS */
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .stat-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.2rem; text-align: center; }
+    .stat-icon  { font-size: 1.6rem; color: var(--accent); margin-bottom: 8px; }
+    .stat-num   { font-size: 1.8rem; font-weight: 700; color: var(--brown-dark); }
+    .stat-label { font-size: .78rem; color: var(--muted); }
+
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .section-header h4 { font-weight: 700; font-size: 1.1rem; margin: 0; }
+    .section-header a  { color: var(--accent); font-size: .85rem; text-decoration: none; }
+
+    /* GOAL */
+    .goal-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 1.5rem; }
+    .goal-card h5 { font-weight: 700; margin-bottom: 4px; }
+    .goal-card p  { font-size: .85rem; color: var(--muted); margin-bottom: 1rem; }
+    .goal-bar-wrap { height: 10px; background: var(--border); border-radius: 5px; margin-bottom: 8px; overflow: hidden; }
+    .goal-bar { height: 100%; background: var(--accent); border-radius: 5px; transition: width .6s; }
+    .goal-details { display: flex; justify-content: space-between; font-size: .82rem; color: var(--muted); }
+
+    /* MONTHLY CHART */
+    .month-chart { display: flex; align-items: flex-end; gap: 6px; height: 100px; margin-bottom: 1rem; }
+    .bar-col { display: flex; flex-direction: column; align-items: center; gap: 4px; flex: 1; }
+    .bar-fill { width: 100%; background: var(--accent); border-radius: 4px 4px 0 0; opacity: .75; }
+    .bar-fill.highlight { opacity: 1; }
+    .bar-label { font-size: .7rem; color: var(--muted); }
+
+    /* ACHIEVEMENTS */
+    .achievements-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+    .achievement-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 1rem; text-align: center;
+      transition: transform .2s;
+    }
+    .achievement-card:hover { transform: translateY(-3px); }
+    .achievement-card.locked { opacity: .45; }
+    .ach-icon { font-size: 2rem; margin-bottom: 8px; }
+    .ach-name { font-size: .82rem; font-weight: 600; margin-bottom: 3px; }
+    .ach-desc { font-size: .73rem; color: var(--muted); }
+
+    /* RECENTLY READ */
+    .books-scroll { display: flex; gap: 1rem; overflow-x: auto; padding-bottom: 10px; }
+    .books-scroll::-webkit-scrollbar { height: 4px; }
+    .books-scroll::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+    .mini-book { flex-shrink: 0; width: 90px; text-align: center; }
+    .mini-book img { width: 90px; height: 128px; object-fit: cover; border-radius: 8px; margin-bottom: 6px; }
+    .mini-book .m-title  { font-size: .75rem; font-weight: 600; line-height: 1.3; }
+    .mini-book .m-author { font-size: .68rem; color: var(--muted); }
+
+    /* SETTINGS */
+    .settings-list { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 2rem; }
+    .settings-item { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-bottom: 1px solid var(--border); cursor: pointer; transition: background .2s; }
+    .settings-item:last-child { border-bottom: none; }
+    .settings-item:hover { background: var(--bg); }
+    .settings-item i { width: 20px; color: var(--accent); font-size: 1rem; }
+    .settings-item span { flex: 1; font-size: .9rem; }
+    .settings-item .arr { color: var(--muted); font-size: .75rem; width: auto; }
+
+    /* TOGGLE */
+    .toggle-switch { position: relative; width: 38px; height: 20px; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; inset: 0; background: var(--border); border-radius: 20px; transition: .3s; }
+    .toggle-switch input:checked + .toggle-slider { background: var(--accent); }
+    .toggle-slider::before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: .3s; }
+    .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
+
+    .sign-out-btn {
+      width: 100%; padding: 12px; border-radius: var(--radius-sm);
+      background: none; border: 1px solid #e0b0a0;
+      color: #c0503a; font-size: .9rem; cursor: pointer;
+      transition: background .2s; margin-bottom: 2rem;
+    }
+    .sign-out-btn:hover { background: #fdf0ec; }
+
+    @media (max-width: 600px) {
+      .profile-banner { flex-direction: column; text-align: center; }
+      .profile-banner > div:last-of-type { display: none; } /* hide 2-col on mobile */
+      .btn-edit { position: static; margin-top: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── MOBILE TOP NAV ── -->
+<nav class="top-nav-bar">
+  <a href="home.html" class="tnav-brand"><span class="litt">Ka</span>lim<span class="litt">at</span></a>
+  <button class="tnav-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+</nav>
+
+<!-- ── MOBILE DRAWER ── -->
+<div class="mobile-drawer-overlay"></div>
+<div class="mobile-drawer">
+  <button class="drawer-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
+  <ul class="drawer-nav">
+    <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="myLibrary.html"><i class="fas fa-bookmark"></i> My Library</a></li>
+    <li><a href="shop.html"><i class="fas fa-shop"></i> Shop</a></li>
+    <li><a href="news.html"><i class="fas fa-bullhorn"></i> News</a></li>
+  </ul>
+  <div class="drawer-person" onclick="window.location.href='profile.html'">
+    <img src="images/29coolio-song1-superJumbo.webp" alt="user">
+    <p>Fares Mohamed</p>
+    <i class="fas fa-chevron-right"></i>
+  </div>
+</div>
+
+<!-- ── LAYOUT ── -->
+<div class="kalimat-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="side-nav-bar">
+    <div class="sidebar-logo">
+      <img src="images/vecteezy_black-and-white-open-book-vector-logo-illustration-on-white_6115725 [Converted].png" alt="logo">
+      <a href="home.html" class="brand-text"><span class="litt">Ka</span>lim<span class="litt">at</span></a>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="myLibrary.html"><i class="fas fa-bookmark"></i> My Library</a></li>
+      <li><a href="shop.html"><i class="fas fa-shop"></i> Shop</a></li>
+      <li><a href="news.html"><i class="fas fa-bullhorn"></i> News</a></li>
+    </ul>
+    <div class="person-info" onclick="window.location.href='profile.html'" style="background:var(--accent);border-color:var(--accent)">
+      <img src="images/29coolio-song1-superJumbo.webp" alt="user">
+      <p style="color:#fff">Fares Mohamed</p>
+      <i class="fas fa-chevron-right" style="color:#fff"></i>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="inner-main">
+
+    <!-- Profile Banner -->
+    <div class="profile-banner">
+      <div class="avatar-wrap">
+        <img src="images/29coolio-song1-superJumbo.webp" class="avatar" alt="user">
+        <div class="avatar-edit"><i class="fas fa-pen"></i></div>
+      </div>
+      <div class="profile-info">
+        <h2>Fares Mohamed</h2>
+        <p>fares.mohamed@email.com · Member since 2024</p>
+        <div class="profile-badges">
+          <span class="badge-pill">📚 Bookworm</span>
+          <span class="badge-pill">🔥 7-day streak</span>
+          <span class="badge-pill">⭐ Top Reader</span>
+        </div>
+      </div>
+      <button class="btn-edit">Edit Profile</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="section-header"><h4>Reading Overview</h4></div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-book"></i></div><div class="stat-num">12</div><div class="stat-label">Books read</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-fire"></i></div><div class="stat-num">7</div><div class="stat-label">Day streak</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-num">48h</div><div class="stat-label">Total time</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-file-alt"></i></div><div class="stat-num">3,240</div><div class="stat-label">Pages read</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-num">4.2</div><div class="stat-label">Avg rating</div></div>
+    </div>
+
+    <!-- 2-col: Goal + Chart -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; margin-bottom:2rem">
+      <div class="goal-card">
+        <h5>📖 2024 Reading Goal</h5>
+        <p>You've read 12 of your 20-book goal</p>
+        <div class="goal-bar-wrap"><div class="goal-bar" style="width:60%"></div></div>
+        <div class="goal-details"><span>12 books</span><span>20 books goal</span></div>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-md);padding:1.5rem">
+        <h5 style="font-weight:700;margin-bottom:1rem;font-size:1rem">Monthly Activity</h5>
+        <div class="month-chart">
+          <div class="bar-col"><div class="bar-fill" style="height:30px"></div><div class="bar-label">Jan</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height:55px"></div><div class="bar-label">Feb</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height:40px"></div><div class="bar-label">Mar</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height:70px"></div><div class="bar-label">Apr</div></div>
+          <div class="bar-col"><div class="bar-fill" style="height:45px"></div><div class="bar-label">May</div></div>
+          <div class="bar-col"><div class="bar-fill highlight" style="height:90px"></div><div class="bar-label">Jun</div></div>
+        </div>
+        <div style="font-size:.8rem;color:var(--muted);text-align:center">Books read per month</div>
+      </div>
+    </div>
+
+    <!-- Achievements -->
+    <div class="section-header"><h4>Achievements</h4><a href="#">See all</a></div>
+    <div class="achievements-grid">
+      <div class="achievement-card"><div class="ach-icon">📚</div><div class="ach-name">Bookworm</div><div class="ach-desc">Read 10 books</div></div>
+      <div class="achievement-card"><div class="ach-icon">🔥</div><div class="ach-name">On Fire</div><div class="ach-desc">7-day streak</div></div>
+      <div class="achievement-card"><div class="ach-icon">⚡</div><div class="ach-name">Speed Reader</div><div class="ach-desc">Read in one day</div></div>
+      <div class="achievement-card locked"><div class="ach-icon">🏆</div><div class="ach-name">Champion</div><div class="ach-desc">Read 50 books</div></div>
+      <div class="achievement-card locked"><div class="ach-icon">🌙</div><div class="ach-name">Night Owl</div><div class="ach-desc">Read after midnight</div></div>
+      <div class="achievement-card locked"><div class="ach-icon">🌍</div><div class="ach-name">Globetrotter</div><div class="ach-desc">Read 5 languages</div></div>
+    </div>
+
+    <!-- Recently Read -->
+    <div class="section-header"><h4>Recently Read</h4></div>
+    <div class="books-scroll" style="margin-bottom:2rem">
+      <div class="mini-book"><img src="images/image3.jpeg" alt="book"><div class="m-title">Deathly Hallows</div><div class="m-author">J.K. Rowling</div></div>
+      <div class="mini-book"><img src="images/books/1984.jpg" alt="book"><div class="m-title">1984</div><div class="m-author">G. Orwell</div></div>
+      <div class="mini-book"><img src="images/books/image1.jpeg" alt="book"><div class="m-title">The Hobbit</div><div class="m-author">Tolkien</div></div>
+      <div class="mini-book"><img src="images/image3.jpeg" alt="book"><div class="m-title">Half-Blood Prince</div><div class="m-author">J.K. Rowling</div></div>
+      <div class="mini-book"><img src="images/books/1984.jpg" alt="book"><div class="m-title">Animal Farm</div><div class="m-author">G. Orwell</div></div>
+    </div>
+
+    <!-- Settings -->
+    <div class="section-header"><h4>Settings</h4></div>
+    <div class="settings-list">
+      <div class="settings-item"><i class="fas fa-user"></i><span>Account Details</span><i class="fas fa-chevron-right arr"></i></div>
+      <div class="settings-item"><i class="fas fa-bell"></i><span>Notifications</span><label class="toggle-switch"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+      <div class="settings-item"><i class="fas fa-moon"></i><span>Dark Mode</span><label class="toggle-switch"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+      <div class="settings-item"><i class="fas fa-lock"></i><span>Privacy &amp; Security</span><i class="fas fa-chevron-right arr"></i></div>
+      <div class="settings-item"><i class="fas fa-credit-card"></i><span>Billing &amp; Subscriptions</span><i class="fas fa-chevron-right arr"></i></div>
+      <div class="settings-item"><i class="fas fa-question-circle"></i><span>Help &amp; Support</span><i class="fas fa-chevron-right arr"></i></div>
+    </div>
+
+    <button class="sign-out-btn"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+
+  </main>
+</div>
+
+<script src="javascript/kalimat-shared.js"></script>
+</body>
+</html>

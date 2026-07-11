@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Kalimat – Home</title>
+  <link rel="stylesheet" href="bootstrap-5.3.7-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fontawesome-free-7.0.0-web/css/all.min.css">
+  <link rel="stylesheet" href="css/kalimat-shared.css">
+  <style>
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, var(--brown) 0%, var(--brown-dark) 100%);
+      border-radius: var(--radius-lg);
+      padding: 3rem 2.5rem;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -40px; right: -40px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.05);
+    }
+    .hero-text h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: .5rem; }
+    .hero-text p  { opacity: .85; margin-bottom: 1.5rem; font-size: .95rem; }
+    .hero-cta {
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 25px;
+      padding: 10px 28px; font-size: .95rem; font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: opacity .2s;
+      display: inline-block;
+    }
+    .hero-cta:hover { opacity: .85; color: #fff; }
+    .hero-books { display: flex; }
+    .hero-books img {
+      width: 80px; height: 115px;
+      object-fit: cover; border-radius: 6px;
+      box-shadow: 3px 3px 12px rgba(0,0,0,.3);
+      margin-left: -15px;
+      transition: transform .2s;
+    }
+    .hero-books img:hover { transform: translateY(-8px); }
+    .hero-books img:first-child { margin-left: 0; }
+
+    /* ── SECTION HEADER ── */
+    .section-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 1.2rem;
+    }
+    .section-header h4 { font-weight: 700; font-size: 1.15rem; margin: 0; }
+    .section-header a  { color: var(--accent); font-size: .88rem; text-decoration: none; }
+    .section-header a:hover { text-decoration: underline; }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1rem; margin-bottom: 2.5rem;
+    }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 1.2rem; text-align: center;
+    }
+    .stat-card .stat-icon { font-size: 1.8rem; color: var(--accent); margin-bottom: 8px; }
+    .stat-card .stat-num  { font-size: 1.6rem; font-weight: 700; color: var(--brown-dark); }
+    .stat-card .stat-label{ font-size: .8rem; color: var(--muted); }
+
+    /* ── CONTINUE READING ── */
+    .continue-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 1.2rem;
+      display: flex; gap: 1rem; align-items: center;
+      margin-bottom: 1rem; cursor: pointer;
+      transition: box-shadow .2s;
+      text-decoration: none; color: inherit;
+    }
+    .continue-card:hover { box-shadow: var(--shadow-md); }
+    .continue-card img { width: 55px; height: 78px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+    .c-info { flex: 1; min-width: 0; }
+    .c-title  { font-weight: 600; font-size: .9rem; margin-bottom: 3px; }
+    .c-author { font-size: .8rem; color: var(--muted); margin-bottom: 8px; }
+    .c-progress-wrap { height: 5px; background: var(--border); border-radius: 3px; margin-bottom: 4px; overflow: hidden; }
+    .c-progress-bar  { height: 100%; background: var(--accent); border-radius: 3px; }
+    .c-pct { font-size: .75rem; color: var(--muted); }
+    .btn-read {
+      background: var(--brown-dark); color: #fff;
+      border: none; border-radius: 20px;
+      padding: 8px 20px; font-size: .85rem; font-weight: 600;
+      cursor: pointer; transition: background .2s; flex-shrink: 0;
+    }
+    .btn-read:hover { background: var(--brown); }
+
+    /* ── BOOK CARDS ── */
+    .books-scroll {
+      display: flex; gap: 1.2rem;
+      overflow-x: auto; padding-bottom: 10px;
+    }
+    .books-scroll::-webkit-scrollbar { height: 4px; }
+    .books-scroll::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
+    .book-card {
+      min-width: 130px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 12px;
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+      text-decoration: none; color: inherit; display: block;
+    }
+    .book-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .book-card img { width: 100%; height: 155px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; }
+    .book-card .b-title  { font-size: .82rem; font-weight: 600; line-height: 1.3; margin-bottom: 3px; }
+    .book-card .b-author { font-size: .75rem; color: var(--muted); }
+
+    /* ── CATEGORIES ── */
+    .categories-wrap { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 2.5rem; }
+    .cat-pill {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 7px 18px;
+      font-size: .85rem; cursor: pointer;
+      transition: background .2s, color .2s;
+      text-decoration: none; color: var(--text);
+    }
+    .cat-pill.active,
+    .cat-pill:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    @media (max-width: 600px) {
+      .hero { flex-direction: column; gap: 1.5rem; padding: 2rem 1.5rem; }
+      .hero-books img { width: 60px; height: 85px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── MOBILE TOP NAV ── -->
+<nav class="top-nav-bar">
+  <a href="home.html" class="tnav-brand"><span class="litt">Ka</span>lim<span class="litt">at</span></a>
+  <button class="tnav-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+</nav>
+
+<!-- ── MOBILE DRAWER ── -->
+<div class="mobile-drawer-overlay"></div>
+<div class="mobile-drawer">
+  <button class="drawer-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
+  <ul class="drawer-nav">
+    <li><a href="home.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="myLibrary.html"><i class="fas fa-bookmark"></i> My Library</a></li>
+    <li><a href="shop.html"><i class="fas fa-shop"></i> Shop</a></li>
+    <li><a href="news.html"><i class="fas fa-bullhorn"></i> News</a></li>
+  </ul>
+  <div class="drawer-person" onclick="window.location.href='profile.html'">
+    <img src="images/29coolio-song1-superJumbo.webp" alt="user">
+    <p>Fares Mohamed</p>
+    <i class="fas fa-chevron-right"></i>
+  </div>
+</div>
+
+<!-- ── LAYOUT ── -->
+<div class="kalimat-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="side-nav-bar">
+    <div class="sidebar-logo">
+      <img src="images/vecteezy_black-and-white-open-book-vector-logo-illustration-on-white_6115725 [Converted].png" alt="logo">
+      <a href="home.html" class="brand-text"><span class="litt">Ka</span>lim<span class="litt">at</span></a>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="home.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="myLibrary.html"><i class="fas fa-bookmark"></i> My Library</a></li>
+      <li><a href="shop.html"><i class="fas fa-shop"></i> Shop</a></li>
+      <li><a href="news.html"><i class="fas fa-bullhorn"></i> News</a></li>
+    </ul>
+
+    <div class="sidebar-continue">
+      <h6>Continue reading</h6>
+      <img src="images/image3.jpeg" alt="current book">
+      <div class="sidebar-progress"><div class="bar" style="width:42%"></div></div>
+    </div>
+
+    <div class="person-info" onclick="window.location.href='profile.html'">
+      <img src="images/29coolio-song1-superJumbo.webp" alt="user">
+      <p>Fares Mohamed</p>
+      <i class="fas fa-chevron-right"></i>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="inner-main">
+
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-text">
+        <h2>Good evening, Fares 👋</h2>
+        <p>You've read 3 books this month.<br>Keep the momentum going!</p>
+        <a href="myLibrary.html" class="hero-cta">Continue Reading</a>
+      </div>
+      <div class="hero-books">
+        <img src="images/books/1984.jpg" alt="1984">
+        <img src="images/image3.jpeg" alt="Harry Potter">
+        <img src="images/books/image1.jpeg" alt="book">
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="section-header">
+      <h4>Your Reading Stats</h4>
+      <a href="profile.html">View all →</a>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-book-open"></i></div><div class="stat-num">12</div><div class="stat-label">Books read</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-fire"></i></div><div class="stat-num">7</div><div class="stat-label">Day streak</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-clock"></i></div><div class="stat-num">48h</div><div class="stat-label">Time reading</div></div>
+      <div class="stat-card"><div class="stat-icon"><i class="fas fa-star"></i></div><div class="stat-num">4.2</div><div class="stat-label">Avg rating</div></div>
+    </div>
+
+    <!-- Continue Reading -->
+    <div class="section-header">
+      <h4>Continue Reading</h4>
+      <a href="myLibrary.html">See library →</a>
+    </div>
+
+    <a href="details.html" class="continue-card">
+      <img src="images/image3.jpeg" alt="Harry Potter">
+      <div class="c-info">
+        <div class="c-title">Harry Potter and the Deathly Hallows</div>
+        <div class="c-author">J.K. Rowling</div>
+        <div class="c-progress-wrap"><div class="c-progress-bar" style="width:42%"></div></div>
+        <div class="c-pct">42% · Chapter 18</div>
+      </div>
+      <button class="btn-read">Read</button>
+    </a>
+
+    <a href="details.html" class="continue-card">
+      <img src="images/books/1984.jpg" alt="1984">
+      <div class="c-info">
+        <div class="c-title">1984</div>
+        <div class="c-author">George Orwell</div>
+        <div class="c-progress-wrap"><div class="c-progress-bar" style="width:75%"></div></div>
+        <div class="c-pct">75% · Chapter 22</div>
+      </div>
+      <button class="btn-read">Read</button>
+    </a>
+
+    <!-- Categories -->
+    <div class="section-header" style="margin-top:2.5rem">
+      <h4>Browse by Genre</h4>
+    </div>
+    <div class="categories-wrap">
+      <a href="shop.html" class="cat-pill active">All</a>
+      <a href="shop.html" class="cat-pill">Fantasy</a>
+      <a href="shop.html" class="cat-pill">Science Fiction</a>
+      <a href="shop.html" class="cat-pill">Mystery</a>
+      <a href="shop.html" class="cat-pill">Romance</a>
+      <a href="shop.html" class="cat-pill">History</a>
+      <a href="shop.html" class="cat-pill">Biography</a>
+      <a href="shop.html" class="cat-pill">Self-Help</a>
+    </div>
+
+    <!-- Recommended -->
+    <div class="section-header">
+      <h4>Recommended for You</h4>
+      <a href="shop.html">View all →</a>
+    </div>
+    <div class="books-scroll">
+      <a href="details.html" class="book-card"><img src="images/image3.jpeg" alt="book"><div class="b-title">Harry Potter: Deathly Hallows</div><div class="b-author">J.K. Rowling</div></a>
+      <a href="details.html" class="book-card"><img src="images/books/1984.jpg" alt="book"><div class="b-title">1984</div><div class="b-author">George Orwell</div></a>
+      <a href="details.html" class="book-card"><img src="images/books/image1.jpeg" alt="book"><div class="b-title">The Hobbit</div><div class="b-author">J.R.R. Tolkien</div></a>
+      <a href="details.html" class="book-card"><img src="images/image3.jpeg" alt="book"><div class="b-title">Chamber of Secrets</div><div class="b-author">J.K. Rowling</div></a>
+      <a href="details.html" class="book-card"><img src="images/books/1984.jpg" alt="book"><div class="b-title">Brave New World</div><div class="b-author">Aldous Huxley</div></a>
+    </div>
+
+    <!-- New Arrivals -->
+    <div class="section-header" style="margin-top:2rem">
+      <h4>New Arrivals</h4>
+      <a href="shop.html">View all →</a>
+    </div>
+    <div class="books-scroll" style="padding-bottom:2rem">
+      <a href="details.html" class="book-card"><img src="images/books/image1.jpeg" alt="book"><div class="b-title">Lord of the Rings</div><div class="b-author">J.R.R. Tolkien</div></a>
+      <a href="details.html" class="book-card"><img src="images/image3.jpeg" alt="book"><div class="b-title">Half-Blood Prince</div><div class="b-author">J.K. Rowling</div></a>
+      <a href="details.html" class="book-card"><img src="images/books/1984.jpg" alt="book"><div class="b-title">Animal Farm</div><div class="b-author">George Orwell</div></a>
+      <a href="details.html" class="book-card"><img src="images/books/image1.jpeg" alt="book"><div class="b-title">The Two Towers</div><div class="b-author">J.R.R. Tolkien</div></a>
+      <a href="details.html" class="book-card"><img src="images/image3.jpeg" alt="book"><div class="b-title">Order of the Phoenix</div><div class="b-author">J.K. Rowling</div></a>
+    </div>
+
+  </main>
+</div>
+
+<script src="javascript/kalimat-shared.js"></script>
+</body>
+</html>

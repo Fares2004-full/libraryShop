@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Kalimat – Shop</title>
+  <link rel="stylesheet" href="bootstrap-5.3.7-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="fontawesome-free-7.0.0-web/css/all.min.css">
+  <link rel="stylesheet" href="css/kalimat-shared.css">
+  <style>
+    /* SHOP HEADER */
+    .shop-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+    .shop-header h2 { font-weight: 700; margin: 0; }
+    .search-filter { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .search-box {
+      display: flex; align-items: center;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 25px; padding: 8px 16px; gap: 8px; min-width: 220px;
+    }
+    .search-box input { border: none; background: none; outline: none; font-size: .9rem; color: var(--text); flex: 1; }
+    .search-box i { color: var(--muted); }
+    .filter-select {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 25px; padding: 8px 16px; font-size: .88rem;
+      color: var(--text); cursor: pointer; outline: none;
+    }
+
+    /* CATEGORY TABS */
+    .cat-tabs { display: flex; gap: 8px; margin-bottom: 1.5rem; flex-wrap: wrap; }
+    .cat-tab {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 20px; padding: 7px 18px; font-size: .85rem;
+      cursor: pointer; transition: all .2s; color: var(--text);
+    }
+    .cat-tab.active, .cat-tab:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* FEATURED BANNER */
+    .featured-banner {
+      background: linear-gradient(135deg, var(--brown) 0%, var(--brown-dark) 100%);
+      border-radius: var(--radius-lg); padding: 2rem 2.5rem;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 2rem; color: #fff; overflow: hidden; position: relative;
+    }
+    .featured-banner::after { content: ''; position: absolute; bottom: -30px; right: -30px; width: 150px; height: 150px; border-radius: 50%; background: rgba(255,255,255,0.06); }
+    .featured-banner h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 6px; }
+    .featured-banner p { opacity: .8; margin-bottom: 1rem; font-size: .9rem; }
+    .featured-price { font-size: 1.6rem; font-weight: 700; margin-bottom: 1rem; }
+    .featured-price span { font-size: .9rem; opacity: .7; text-decoration: line-through; margin-left: 8px; }
+    .btn-buy-featured { background: var(--accent); color: #fff; border: none; border-radius: 25px; padding: 10px 28px; font-weight: 600; cursor: pointer; }
+    .featured-img { width: 100px; border-radius: 8px; box-shadow: 4px 4px 18px rgba(0,0,0,.4); flex-shrink: 0; }
+
+    /* SECTION HEADER */
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .section-header h4 { font-weight: 700; font-size: 1.1rem; margin: 0; }
+    .sort-select { background: var(--card); border: 1px solid var(--border); border-radius: 20px; padding: 5px 14px; font-size: .82rem; color: var(--muted); cursor: pointer; outline: none; }
+
+    /* BOOKS GRID */
+    .books-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 1.2rem; margin-bottom: 2.5rem; }
+    .book-card-wrap { position: relative; }
+    .book-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 12px;
+      cursor: pointer; transition: transform .2s, box-shadow .2s;
+      text-decoration: none; color: inherit; display: block;
+    }
+    .book-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+    .book-card img { width: 100%; height: 175px; object-fit: cover; border-radius: 8px; margin-bottom: 10px; }
+    .book-card .b-title  { font-size: .85rem; font-weight: 600; line-height: 1.3; margin-bottom: 4px; }
+    .book-card .b-author { font-size: .78rem; color: var(--muted); margin-bottom: 8px; }
+    .book-card .b-price-row { display: flex; justify-content: space-between; align-items: center; }
+    .book-card .b-price     { font-size: .92rem; font-weight: 700; color: var(--brown); }
+    .book-card .b-old-price { font-size: .75rem; color: var(--muted); text-decoration: line-through; }
+    .btn-cart { background: var(--brown); color: #fff; border: none; border-radius: 20px; padding: 5px 14px; font-size: .78rem; cursor: pointer; transition: background .2s; width: 100%; margin-top: 8px; }
+    .btn-cart:hover { background: var(--brown-dark); }
+    .badge-new { background: var(--accent); color: #fff; font-size: .68rem; padding: 3px 8px; border-radius: 6px; position: absolute; top: 8px; left: 8px; }
+    .stars { color: var(--accent); font-size: .75rem; margin-bottom: 4px; }
+
+    /* PAGINATION */
+    .pagination-wrap { display: flex; justify-content: center; gap: 6px; padding: 1rem 0 2rem; }
+    .page-btn { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); background: var(--card); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: .88rem; transition: all .2s; }
+    .page-btn.active, .page-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+<!-- ── MOBILE TOP NAV ── -->
+<nav class="top-nav-bar">
+  <a href="home.html" class="tnav-brand"><span class="litt">Ka</span>lim<span class="litt">at</span></a>
+  <button class="tnav-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+</nav>
+
+<!-- ── MOBILE DRAWER ── -->
+<div class="mobile-drawer-overlay"></div>
+<div class="mobile-drawer">
+  <button class="drawer-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
+  <ul class="drawer-nav">
+    <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="myLibrary.html"><i class="fas fa-bookmark"></i> My Library</a></li>
+    <li><a href="shop.html" class="active"><i class="fas fa-shop"></i> Shop</a></li>
+    <li><a href="news.html"><i class="fas fa-bullhorn"></i> News</a></li>
+  </ul>
+  <div class="drawer-person" onclick="window.location.href='profile.html'">
+    <img src="images/29coolio-song1-superJumbo.webp" alt="user">
+    <p>Fares Mohamed</p>
+    <i class="fas fa-chevron-right"></i>
+  </div>
+</div>
+
+<!-- ── LAYOUT ── -->
+<div class="kalimat-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="side-nav-bar">
+    <div class="sidebar-logo">
+      <img src="images/vecteezy_black-and-white-open-book-vector-logo-illustration-on-white_6115725 [Converted].png" alt="logo">
+      <a href="home.html" class="brand-text"><span class="litt">Ka</span>lim<span class="litt">at</span></a>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="myLibrary.html"><i class="fas fa-bookmark"></i> My Library</a></li>
+      <li><a href="shop.html" class="active"><i class="fas fa-shop"></i> Shop</a></li>
+      <li><a href="news.html"><i class="fas fa-bullhorn"></i> News</a></li>
+    </ul>
+    <div class="person-info" onclick="window.location.href='profile.html'">
+      <img src="images/29coolio-song1-superJumbo.webp" alt="user">
+      <p>Fares Mohamed</p>
+      <i class="fas fa-chevron-right"></i>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="inner-main">
+
+    <div class="shop-header">
+      <h2>Shop</h2>
+      <div class="search-filter">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search books, authors...">
+        </div>
+        <select class="filter-select">
+          <option>All formats</option>
+          <option>Paperback</option>
+          <option>E-book</option>
+          <option>Audiobook</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="cat-tabs">
+      <div class="cat-tab active">All</div>
+      <div class="cat-tab">Fantasy</div>
+      <div class="cat-tab">Sci-Fi</div>
+      <div class="cat-tab">Mystery</div>
+      <div class="cat-tab">Romance</div>
+      <div class="cat-tab">History</div>
+      <div class="cat-tab">Biography</div>
+      <div class="cat-tab">Self-Help</div>
+    </div>
+
+    <div class="featured-banner">
+      <div>
+        <div style="font-size:.8rem;opacity:.7;margin-bottom:6px">⚡ DEAL OF THE DAY</div>
+        <h3>Harry Potter and the<br>Deathly Hallows</h3>
+        <p>J.K. Rowling · Fantasy</p>
+        <div class="featured-price">$8.99 <span>$15.99</span></div>
+        <button class="btn-buy-featured">Add to Cart</button>
+      </div>
+      <img src="images/image3.jpeg" alt="featured" class="featured-img">
+    </div>
+
+    <div class="section-header">
+      <h4>Bestsellers</h4>
+      <select class="sort-select">
+        <option>Most Popular</option>
+        <option>Newest</option>
+        <option>Price: Low to High</option>
+        <option>Price: High to Low</option>
+      </select>
+    </div>
+
+    <div class="books-grid">
+      <div class="book-card-wrap">
+        <div class="badge-new">NEW</div>
+        <a href="details.html" class="book-card"><img src="images/image3.jpeg" alt="book"><div class="b-title">Harry Potter: Deathly Hallows</div><div class="b-author">J.K. Rowling</div><div class="stars">★★★★★</div><div class="b-price-row"><span class="b-price">$8.99</span><span class="b-old-price">$15.99</span></div><button class="btn-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button></a>
+      </div>
+      <div class="book-card-wrap">
+        <a href="details.html" class="book-card"><img src="images/books/1984.jpg" alt="book"><div class="b-title">1984</div><div class="b-author">George Orwell</div><div class="stars">★★★★★</div><div class="b-price-row"><span class="b-price">$7.49</span></div><button class="btn-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button></a>
+      </div>
+      <div class="book-card-wrap">
+        <a href="details.html" class="book-card"><img src="images/books/image1.jpeg" alt="book"><div class="b-title">The Hobbit</div><div class="b-author">J.R.R. Tolkien</div><div class="stars">★★★★☆</div><div class="b-price-row"><span class="b-price">$9.99</span></div><button class="btn-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button></a>
+      </div>
+      <div class="book-card-wrap">
+        <div class="badge-new">SALE</div>
+        <a href="details.html" class="book-card"><img src="images/image3.jpeg" alt="book"><div class="b-title">Chamber of Secrets</div><div class="b-author">J.K. Rowling</div><div class="stars">★★★★☆</div><div class="b-price-row"><span class="b-price">$6.99</span><span class="b-old-price">$12.99</span></div><button class="btn-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button></a>
+      </div>
+      <div class="book-card-wrap">
+        <a href="details.html" class="book-card"><img src="images/books/1984.jpg" alt="book"><div class="b-title">Brave New World</div><div class="b-author">Aldous Huxley</div><div class="stars">★★★★☆</div><div class="b-price-row"><span class="b-price">$8.49</span></div><button class="btn-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button></a>
+      </div>
+      <div class="book-card-wrap">
+        <a href="details.html" class="book-card"><img src="images/books/image1.jpeg" alt="book"><div class="b-title">Lord of the Rings</div><div class="b-author">J.R.R. Tolkien</div><div class="stars">★★★★★</div><div class="b-price-row"><span class="b-price">$11.99</span></div><button class="btn-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button></a>
+      </div>
+      <div class="book-card-wrap">
+        <a href="details.html" class="book-card"><img src="images/image3.jpeg" alt="book"><div class="b-title">Order of the Phoenix</div><div class="b-author">J.K. Rowling</div><div class="stars">★★★★★</div><div class="b-price-row"><span class="b-price">$9.49</span></div><button class="btn-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button></a>
+      </div>
+      <div class="book-card-wrap">
+        <a href="details.html" class="book-card"><img src="images/books/1984.jpg" alt="book"><div class="b-title">Animal Farm</div><div class="b-author">George Orwell</div><div class="stars">★★★★☆</div><div class="b-price-row"><span class="b-price">$5.99</span></div><button class="btn-cart"><i class="fas fa-cart-plus"></i> Add to Cart</button></a>
+      </div>
+    </div>
+
+    <div class="pagination-wrap">
+      <div class="page-btn"><i class="fas fa-chevron-left" style="font-size:.7rem"></i></div>
+      <div class="page-btn active">1</div>
+      <div class="page-btn">2</div>
+      <div class="page-btn">3</div>
+      <div class="page-btn">4</div>
+      <div class="page-btn"><i class="fas fa-chevron-right" style="font-size:.7rem"></i></div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+  document.querySelectorAll('.cat-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+<script src="javascript/kalimat-shared.js"></script>
+</body>
+</html>

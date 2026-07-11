@@ -1,220 +1,247 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>My Library</title>
+  <title>Kalimat – My Library</title>
   <link rel="stylesheet" href="bootstrap-5.3.7-dist/css/bootstrap.min.css">
-
   <link rel="stylesheet" href="fontawesome-free-7.0.0-web/css/all.min.css">
-  <link rel="stylesheet" href="css/styleSheet.css">
+  <link rel="stylesheet" href="css/kalimat-shared.css">
+  <style>
+    /* HEADER */
+    .lib-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 10px 14px;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+    .lib-header h4 {
+      margin: 0;
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--brown-dark);
+      background: var(--accent-soft);
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      box-shadow: var(--shadow-sm);
+    }
+    .lib-search {
+      display: flex;
+      align-items: center;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 25px;
+      padding: 8px 14px;
+      gap: 8px;
+      flex: 1;
+    }
+    .lib-search i { color: var(--muted); }
+    .lib-search input { border: none; background: none; outline: none; font-size: .9rem; color: var(--text); width: 100%; }
+    .lib-search input::placeholder { color: var(--muted); font-size: .85rem; }
 
+    /* SECTION */
+    .shelf-section { margin-bottom: 2rem; }
+    .shelf-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: .75rem;
+    }
+    .shelf-title-row h3 { font-size: 1.05rem; font-weight: 700; color: var(--brown-dark); margin: 0; }
+    .shelf-title-row a  { font-size: .82rem; color: var(--muted); text-decoration: none; cursor: pointer; }
+    .shelf-title-row a:hover { color: var(--brown); }
 
+    /* BOOK ROW */
+    .shelf-books {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .shelf-books::-webkit-scrollbar { height: 3px; }
+    .shelf-books::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 2px; }
 
+    .book-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .book-wrap img,
+    .main-books img {
+      width: 70px !important;
+      height: 100px !important;
+      max-width: 70px !important;
+      max-height: 100px !important;
+      object-fit: cover;
+      border-radius: 4px;
+      box-shadow: 6px 4px 10px rgba(0,0,0,.25);
+      transition: transform .2s;
+      display: block;
+    }
+
+    .main-books {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .main-books:hover img { transform: translateY(-5px); }
+    .book-wrap:hover img { transform: translateY(-5px); }
+
+    /* Progress under book */
+    .book-progress {
+      width: 70px;
+      height: 5px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .book-progress .bar { height: 100%; background: var(--accent); border-radius: 3px; }
+
+    /* SHELF LINE */
+    .shelf-line {
+      width: 100%;
+      height: 14px;
+      background: rgba(217,214,205,0.7);
+      border-radius: 2px 2px 6px 6px;
+      border-top: 4px solid rgb(229,228,218);
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.07);
+      margin-bottom: 1.5rem;
+    }
+  </style>
 </head>
-
 <body>
-  <div class="main">
-    <nav class="navbar bg-body-tertiary fixed-top top-nav-bar">
-      <div class="container-fluid">
-        <!-- Start of header nav -->
-        <a class="navbar-brand" href="#">Offcanvas navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-          aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- end of header nav -->
 
+<!-- ── MOBILE TOP NAV ── -->
+<nav class="top-nav-bar">
+  <a href="home.html" class="tnav-brand"><span class="litt">Ka</span>lim<span class="litt">at</span></a>
+  <button class="tnav-toggle" aria-label="Open menu"><i class="fas fa-bars"></i></button>
+</nav>
 
-        <!-- Start of sideToggle -->
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-          <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body">
-            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="myLibrary.html">My library</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Shop</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">News</a>
-              </li>
-            </ul>
-
-          </div>
-        </div>
-        <!-- End of sideToggle -->
-      </div>
-    </nav>
-    <!-- Start of sidenav -->
-    <div class="d-flex flex-column flex-shrink-0 p-3   side-nav-bar" style="width: 230px; height:100%;">
-      <img src="images/vecteezy_black-and-white-open-book-vector-logo-illustration-on-white_6115725 [Converted].png"
-        class="logo-img">
-      <a href="#" class="d-flex align-items-center mb-4 mb-md-0 me-md-auto text-decoration-none main-link-side-nav">
-
-        <span class="fs-4 mb-5 "><span class="litt">Ka</span>lim<span class="litt">at</span></span> </a>
-
-      <ul class="nav nav-pills flex-column mb-auto">
-        <li class="nav-item"> <a href="#" class="nav-link nav-link-side-nav">
-            <i class="fas fa-home"></i> Home
-          </a> </li>
-        <li> <a href="myLibrary.html" class="nav-link  nav-link-side-nav">
-            <i class="fas fa-bookmark"></i> My library
-          </a> </li>
-        <li> <a href="#" class="nav-link nav-link-side-nav">
-            <i class="fas fa-shop"></i> Shop
-          </a> </li>
-        <li> <a href="#" class="nav-link nav-link-side-nav">
-            <i class="fas fa-bullhorn"></i> News
-          </a> </li>
-
-      </ul>
-
-      <div class="current-read">
-        <h6>Continue reading</h6>
-        <img src="images/image3.jpeg">
-
-        <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-          <div class="progress-bar " style="width:25%;"></div>
-        </div>
-
-      </div>
-
-      <div class="person-info ">
-        <img src="images/29coolio-song1-superJumbo.webp">
-        <p>Fares Mohamed</p>
-        <i class="fas fa-chevron-right"></i>
-      </div>
-    </div>
-    <!-- Start of sidenav -->
-
-    <div class="inner-main">
-      <header>
-        <h4>Shelves</h4>
-
-        <!-- Search Bar Section -->
-        <div class="search-bar d-flex align-items-center  rounded">
-
-          <div class="input-group">
-            <span class="input-group-text  border-end-0">
-              <i class="fas fa-search"></i>
-            </span>
-            <input type="text" class="form-control border-start-0" placeholder="Search in My library">
-          </div>
-        </div>
-      </header>
-
-      <main>
-        <section class="section1">
-          <div class="content">
-            <div>
-              <h3>Currently reading</h3>
-              <p></p>
-            </div>
-
-            <div class="shelve-section shelve-section1">
-
-
-              <div class="main-books"  id="d"><img src="images/books/1984.jpg" alt=""></div>
-              <div class="main-books" ><img src="images/image3.jpeg" alt=""></div>
-              <div class="main-books"><img src="images/books/image1.jpeg" alt="">
-              </div>
-
-            </div>
-
-
-            <div class="shelve">
-              <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar " style="width:80%;"></div>
-              </div>
-
-              <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar " style="width:25%;"></div>
-              </div>
-
-              <div class="progress " role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
-                <div class="progress-bar " style="width:70%;"></div>
-              </div>
-            </div>
-
-
-          </div>
-
-          <div class="content">
-            <div class="p">
-              <h3>Next up</h3>
-              <p>Full Shelve <i class="fas fa-chevron-right"></i></p>
-            </div>
-
-
-            <div class="shelve-section shelve-section2">
-
-              <div class="main-books" id="fares">
-                <img src="images/books/1984.jpg" alt="">
-              </div>
-
-              <div class="main-books"><a href="details.html"><img src="images/image3.jpeg" alt=""></a>
-              </div>
-              <div class="main-books"><img src="images/books/image1.jpeg" alt="">
-              </div>
-
-              <div class="main-books"><img src="images/books/1984.jpg" alt=""></div>
-              <div class="main-books"><img src="images/image3.jpeg" alt=""></div>
-              <div class="main-books"><img src="images/books/image1.jpeg" alt="">
-              </div>
-
-
-            </div>
-            <div class="shelve">
-
-            </div>
-
-
-          </div>
-
-          <div class="content">
-            <h3>Finished</h3>
-
-            <div class="shelve-section shelve-section3">
-
-           
-
-
-            </div>
-          </div>
-          <div class="shelve">
-
-          </div>
-    </div>
-
-
-
+<!-- ── MOBILE DRAWER ── -->
+<div class="mobile-drawer-overlay"></div>
+<div class="mobile-drawer">
+  <button class="drawer-close" aria-label="Close menu"><i class="fas fa-times"></i></button>
+  <ul class="drawer-nav">
+    <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+    <li><a href="myLibrary.html" class="active"><i class="fas fa-bookmark"></i> My Library</a></li>
+    <li><a href="shop.html"><i class="fas fa-shop"></i> Shop</a></li>
+    <li><a href="news.html"><i class="fas fa-bullhorn"></i> News</a></li>
+  </ul>
+  <div class="drawer-person" onclick="window.location.href='profile.html'">
+    <img src="images/29coolio-song1-superJumbo.webp" alt="user">
+    <p>Fares Mohamed</p>
+    <i class="fas fa-chevron-right"></i>
   </div>
+</div>
 
-  </section>
+<!-- ── LAYOUT ── -->
+<div class="kalimat-layout">
 
+  <!-- SIDEBAR -->
+  <aside class="side-nav-bar">
+    <div class="sidebar-logo">
+      <img src="images/vecteezy_black-and-white-open-book-vector-logo-illustration-on-white_6115725 [Converted].png" alt="logo">
+      <a href="home.html" class="brand-text"><span class="litt">Ka</span>lim<span class="litt">at</span></a>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="home.html"><i class="fas fa-home"></i> Home</a></li>
+      <li><a href="myLibrary.html" class="active"><i class="fas fa-bookmark"></i> My Library</a></li>
+      <li><a href="shop.html"><i class="fas fa-shop"></i> Shop</a></li>
+      <li><a href="news.html"><i class="fas fa-bullhorn"></i> News</a></li>
+    </ul>
+
+    <div class="sidebar-continue">
+      <h6>Continue reading</h6>
+      <img src="images/image3.jpeg" alt="current book">
+      <div class="sidebar-progress"><div class="bar" style="width:25%"></div></div>
+    </div>
+
+    <div class="person-info" onclick="window.location.href='profile.html'">
+      <img src="images/29coolio-song1-superJumbo.webp" alt="user">
+      <p>Fares Mohamed</p>
+      <i class="fas fa-chevron-right"></i>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="inner-main">
+
+    <!-- Header + Search -->
+    <div class="lib-header">
+      <h4>Shelves</h4>
+      <div class="lib-search">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search in My library">
+      </div>
+    </div>
+
+    <!-- Currently Reading -->
+    <div class="shelf-section">
+      <div class="shelf-title-row">
+        <h3>Currently reading</h3>
+      </div>
+      <div class="shelf-books">
+        <div class="book-wrap" id="1">
+          <img src="images/books/1984.jpg" alt="1984">
+          <div class="book-progress"><div class="bar" style="width:80%"></div></div>
+        </div>
+        <div class="book-wrap">
+          <img src="images/image3.jpeg" alt="">
+          <div class="book-progress"><div class="bar" style="width:25%"></div></div>
+        </div>
+        <div class="book-wrap">
+          <img src="images/books/image1.jpeg" alt="">
+          <div class="book-progress"><div class="bar" style="width:70%"></div></div>
+        </div>
+      </div>
+      <div class="shelf-line"></div>
+    </div>
+
+    <!-- Next Up -->
+    <div class="shelf-section">
+      <div class="shelf-title-row">
+        <h3>Next up</h3>
+        <a>Full Shelf <i class="fas fa-chevron-right" style="font-size:.7rem"></i></a>
+      </div>
+      <div class="shelf-books shelve-section2">
+        <div class="book-wrap" id="1"><img src="images/books/1984.jpg" alt=""></div>
+        <div class="book-wrap" id="2"><img src="images/image3.jpeg" alt=""></div>
+        <div class="book-wrap"><img src="images/books/image1.jpeg" alt=""></div>
+        <div class="book-wrap"><img src="images/books/1984.jpg" alt=""></div>
+        <div class="book-wrap"><img src="images/image3.jpeg" alt=""></div>
+        <div class="book-wrap"><img src="images/books/image1.jpeg" alt=""></div>
+      </div>
+      <div class="shelf-line"></div>
+    </div>
+
+    <!-- Finished -->
+    <div class="shelf-section">
+      <div class="shelf-title-row">
+        <h3>Finished</h3>
+      </div>
+      <div class="shelf-books shelve-section3">
+        <!-- populated by library.js -->
+      </div>
+      <div class="shelf-line"></div>
+    </div>
 
   </main>
+</div>
 
-  </div>
-
-  </div>
-
-  <script src="bootstrap-5.3.7-dist/js/popper.min.js"></script>
-  <script src="bootstrap-5.3.7-dist/js/jquery-3.7.1.min.js"></script>
-  <script src="bootstrap-5.3.7-dist/js/bootstrap.js"></script>
-    <script src="javascript/library.js"></script>
-
-
-
+<script src="bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js"></script>
+<script src="javascript/library.js"></script>
+<script src="javascript/kalimat-shared.js"></script>
 </body>
-
 </html>

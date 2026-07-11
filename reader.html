@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Kalimat – Reading</title>
+  <link rel="stylesheet" href="fontawesome-free-7.0.0-web/css/all.min.css">
+  <style>
+    :root {
+      --kalimat-brown: #7a5c2e;
+      --kalimat-brown-dark: #5a3e1b;
+      --kalimat-accent: #c8a265;
+      --kalimat-page: #fdf8f0;
+      --kalimat-page-shadow: #e8d9c0;
+      --kalimat-spine: #6b4c20;
+      --kalimat-text: #2a1f0e;
+      --kalimat-muted: #8a7a60;
+      --kalimat-ui-bg: #1a1208;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--kalimat-ui-bg);
+      min-height: 100vh;
+      font-family: 'Georgia', serif;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── TOP BAR ── */
+    .reader-topbar {
+      background: rgba(26,18,8,0.95);
+      border-bottom: 1px solid rgba(200,162,101,0.2);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 50;
+      flex-shrink: 0;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 16px; }
+    .btn-back {
+      background: none; border: 1px solid rgba(200,162,101,0.4);
+      color: var(--kalimat-accent); border-radius: 20px;
+      padding: 6px 16px; font-size: 0.82rem; cursor: pointer;
+      transition: all 0.2s; text-decoration: none;
+    }
+    .btn-back:hover { background: rgba(200,162,101,0.15); color: var(--kalimat-accent); }
+    .book-title-bar { color: #fff; font-size: 0.88rem; opacity: 0.8; font-family: 'Segoe UI', sans-serif; }
+    .topbar-center {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .topbar-icon {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(200,162,101,0.25);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: var(--kalimat-accent); font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .topbar-icon:hover { background: rgba(200,162,101,0.2); }
+
+    /* reading progress bar */
+    .progress-bar-top {
+      height: 2px; background: rgba(255,255,255,0.08);
+      position: relative; overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%; background: var(--kalimat-accent);
+      transition: width 0.5s;
+    }
+
+    /* ── READING AREA ── */
+    .reading-area {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      perspective: 2000px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── BOOK CONTAINER ── */
+    .book {
+      width: 860px;
+      height: 580px;
+      position: relative;
+      transform-style: preserve-3d;
+      filter: drop-shadow(0 30px 60px rgba(0,0,0,0.7));
+    }
+
+    /* ── BOOK SPINE ── */
+    .book-spine {
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 30px;
+      transform: translateX(-50%);
+      background: linear-gradient(90deg, #4a3010, var(--kalimat-spine), #4a3010);
+      z-index: 10;
+      border-radius: 2px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+    /* Decorative lines on spine */
+    .book-spine::before, .book-spine::after {
+      content: '';
+      position: absolute; left: 0; right: 0;
+      height: 2px; background: rgba(200,162,101,0.4);
+    }
+    .book-spine::before { top: 40px; }
+    .book-spine::after { bottom: 40px; }
+
+    /* ── PAGE PANELS ── */
+    .page-left, .page-right {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: calc(50% - 15px);
+      background: var(--kalimat-page);
+      overflow: hidden;
+    }
+    .page-left {
+      left: 0;
+      border-radius: 6px 0 0 6px;
+      box-shadow: inset -10px 0 20px rgba(0,0,0,0.08);
+    }
+    .page-right {
+      right: 0;
+      border-radius: 0 6px 6px 0;
+      box-shadow: inset 10px 0 20px rgba(0,0,0,0.08);
+    }
+
+    /* Page texture lines */
+    .page-left::after, .page-right::after {
+      content: '';
+      position: absolute; top: 0; bottom: 0;
+      width: 1px; background: rgba(0,0,0,0.04);
+      box-shadow: 20px 0 0 rgba(0,0,0,0.02), 40px 0 0 rgba(0,0,0,0.02), 60px 0 0 rgba(0,0,0,0.02);
+    }
+    .page-left::after { right: 30px; }
+    .page-right::after { left: 30px; }
+
+    /* ── PAGE CONTENT ── */
+    .page-content {
+      padding: 50px 44px 40px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .page-header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(122,92,46,0.15);
+    }
+    .chapter-label { font-size: 0.7rem; letter-spacing: 3px; text-transform: uppercase; color: var(--kalimat-muted); margin-bottom: 4px; font-family: 'Segoe UI', sans-serif; }
+    .chapter-title { font-size: 1rem; color: var(--kalimat-brown-dark); font-weight: normal; font-style: italic; }
+
+    .page-text {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--kalimat-text);
+      flex: 1;
+      column-count: 1;
+    }
+    .page-text p { margin-bottom: 14px; text-indent: 2em; }
+    .page-text p:first-child { text-indent: 0; }
+    .page-text p:first-child::first-letter {
+      font-size: 3.2rem;
+      font-weight: bold;
+      color: var(--kalimat-brown);
+      float: left;
+      line-height: 0.75;
+      margin: 4px 8px 0 0;
+      font-family: 'Georgia', serif;
+    }
+
+    .page-number {
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--kalimat-muted);
+      font-family: 'Segoe UI', sans-serif;
+      margin-top: 12px;
+      letter-spacing: 1px;
+    }
+
+    /* ── FLIP ANIMATION ── */
+    .flip-container {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: calc(50% - 15px);
+      transform-style: preserve-3d;
+      z-index: 20;
+      pointer-events: none;
+    }
+    /* Flipping RIGHT → LEFT (next page) */
+    .flip-container.flip-forward {
+      right: 0;
+      transform-origin: left center;
+      animation: flipForward 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    /* Flipping LEFT → RIGHT (previous page) */
+    .flip-container.flip-back {
+      left: 0;
+      transform-origin: right center;
+      animation: flipBack 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes flipForward {
+      0%   { transform: rotateY(0deg);    }
+      50%  { transform: rotateY(-90deg);  box-shadow: -30px 0 40px rgba(0,0,0,0.4); }
+      100% { transform: rotateY(-180deg); }
+    }
+    @keyframes flipBack {
+      0%   { transform: rotateY(0deg);   }
+      50%  { transform: rotateY(90deg);  box-shadow: 30px 0 40px rgba(0,0,0,0.4); }
+      100% { transform: rotateY(180deg); }
+    }
+
+    /* front face of flip card */
+    .flip-face {
+      position: absolute; inset: 0;
+      backface-visibility: hidden;
+      background: var(--kalimat-page);
+      border-radius: 0 6px 6px 0;
+      overflow: hidden;
+    }
+    .flip-face.back {
+      transform: rotateY(180deg);
+      background: var(--kalimat-page-shadow);
+      border-radius: 6px 0 0 6px;
+    }
+    /* Curl shadow on turning page */
+    .flip-face::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.15) 0%, transparent 30%);
+      pointer-events: none;
+    }
+    .flip-container.flip-back .flip-face::before {
+      background: linear-gradient(-90deg, rgba(0,0,0,0.15) 0%, transparent 30%);
+    }
+
+    /* ── BOTTOM BAR ── */
+    .reader-bottombar {
+      background: rgba(26,18,8,0.95);
+      border-top: 1px solid rgba(200,162,101,0.2);
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      z-index: 50;
+    }
+
+    .btn-nav {
+      background: rgba(200,162,101,0.1);
+      border: 1px solid rgba(200,162,101,0.35);
+      color: var(--kalimat-accent);
+      border-radius: 25px; padding: 9px 28px;
+      font-size: 0.88rem; cursor: pointer;
+      transition: all 0.2s; font-family: 'Segoe UI', sans-serif;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-nav:hover:not(:disabled) { background: rgba(200,162,101,0.25); transform: scale(1.03); }
+    .btn-nav:disabled { opacity: 0.3; cursor: not-allowed; }
+    .btn-nav:active:not(:disabled) { transform: scale(0.97); }
+
+    .page-indicator {
+      text-align: center; color: rgba(255,255,255,0.6);
+      font-size: 0.82rem; font-family: 'Segoe UI', sans-serif;
+    }
+    .page-indicator strong { color: #fff; font-size: 1rem; }
+
+    /* ── SETTINGS PANEL ── */
+    .settings-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.5);
+      display: flex; align-items: flex-start; justify-content: center;
+      padding-top: 60px;
+      opacity: 0; pointer-events: none; transition: opacity 0.25s;
+    }
+    .settings-overlay.open { opacity: 1; pointer-events: all; }
+    .settings-panel {
+      background: #2a1f0e; border: 1px solid rgba(200,162,101,0.3);
+      border-radius: 16px; padding: 1.5rem; width: 320px;
+      transform: translateY(-20px); transition: transform 0.25s;
+      color: #fff;
+    }
+    .settings-overlay.open .settings-panel { transform: translateY(0); }
+    .settings-panel h5 { font-size: 0.95rem; margin-bottom: 1rem; color: var(--kalimat-accent); font-family: 'Segoe UI', sans-serif; }
+    .setting-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .setting-row label { font-size: 0.85rem; color: rgba(255,255,255,0.8); font-family: 'Segoe UI', sans-serif; }
+    .font-btns { display: flex; gap: 6px; }
+    .font-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(200,162,101,0.3); color: #fff; border-radius: 8px; padding: 4px 12px; cursor: pointer; font-size: 0.82rem; }
+    .font-btn.active { background: var(--kalimat-accent); border-color: var(--kalimat-accent); }
+    .theme-btns { display: flex; gap: 8px; }
+    .theme-btn { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: border 0.2s; }
+    .theme-btn.active { border-color: var(--kalimat-accent); }
+
+    /* ── TOC PANEL ── */
+    .toc-panel {
+      position: fixed; right: 0; top: 0; bottom: 0;
+      width: 280px; background: #2a1f0e;
+      border-left: 1px solid rgba(200,162,101,0.3);
+      z-index: 100; padding: 1.5rem;
+      transform: translateX(100%); transition: transform 0.3s;
+      overflow-y: auto;
+    }
+    .toc-panel.open { transform: translateX(0); }
+    .toc-panel h5 { color: var(--kalimat-accent); margin-bottom: 1.2rem; font-size: 0.95rem; font-family: 'Segoe UI', sans-serif; }
+    .toc-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 8px; cursor: pointer; color: rgba(255,255,255,0.7); font-size: 0.85rem; font-family: 'Segoe UI', sans-serif; transition: background 0.2s; }
+    .toc-item:hover, .toc-item.active { background: rgba(200,162,101,0.15); color: #fff; }
+    .toc-item .toc-num { color: var(--kalimat-accent); font-size: 0.75rem; min-width: 20px; }
+    .toc-progress { height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; flex: 1; }
+    .toc-progress-fill { height: 100%; background: var(--kalimat-accent); border-radius: 2px; }
+
+    /* ── KEYBOARD HINT ── */
+    .key-hint {
+      position: fixed; bottom: 80px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(26,18,8,0.9); border: 1px solid rgba(200,162,101,0.2);
+      border-radius: 20px; padding: 6px 18px;
+      color: rgba(255,255,255,0.5); font-size: 0.75rem;
+      font-family: 'Segoe UI', sans-serif;
+      opacity: 0; transition: opacity 0.5s;
+      pointer-events: none; z-index: 40;
+    }
+    .key-hint.show { opacity: 1; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      .book { width: 95vw; height: 60vw; min-height: 420px; }
+      .page-text { font-size: 0.85rem; }
+      .reading-area { padding: 15px; }
+    }
+    @media (max-width: 600px) {
+      .book { width: 100%; height: 70vw; }
+      .page-left { display: none; }
+      .page-right { width: 100%; right: 0; left: 0; border-radius: 6px; }
+      .book-spine { display: none; }
+      .flip-container { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="reader-topbar">
+  <div class="topbar-left">
+    <a href="details.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back</a>
+    <span class="book-title-bar">Harry Potter and the Deathly Hallows</span>
+  </div>
+  <div class="topbar-center">
+    <div class="topbar-icon" onclick="toggleToc()" title="Table of Contents"><i class="fas fa-list"></i></div>
+    <div class="topbar-icon" onclick="toggleBookmark(this)" title="Bookmark"><i class="far fa-bookmark" id="bookmark-icon"></i></div>
+    <div class="topbar-icon" onclick="toggleSettings()" title="Reading Settings"><i class="fas fa-text-height"></i></div>
+    <div class="topbar-icon" title="Search"><i class="fas fa-search"></i></div>
+  </div>
+</div>
+<div class="progress-bar-top"><div class="progress-bar-fill" id="progress-fill" style="width:18%"></div></div>
+
+<!-- READING AREA -->
+<div class="reading-area" id="reading-area">
+  <div class="book" id="book">
+
+    <!-- Left page (even page) -->
+    <div class="page-left" id="page-left">
+      <div class="page-content" id="left-content">
+        <div class="page-header">
+          <div class="chapter-label">Chapter Eighteen</div>
+          <div class="chapter-title">The Life and Lies of Albus Dumbledore</div>
+        </div>
+        <div class="page-text" id="left-text">
+          <p>The forest was silent around them as Harry stared at the grave. He had not thought about Dumbledore's grave since he had come to visit it that night when Dumbledore had died, had lain in the white tomb on the grounds of Hogwarts. Now the place felt different somehow.</p>
+          <p>Hermione stood just behind him, not speaking, but he could feel her presence as he could always feel her presence, like a warm anchor in the darkness of the night. Ron was somewhere to his left, his feet crunching slightly in the frost.</p>
+          <p>"He trusted us," Harry said at last, his voice barely more than a whisper. "He left us all those clues and trusted us to figure it out."</p>
+          <p>"He left you those things because he believed in you," Hermione said softly. "He always believed in you, Harry."</p>
+          <p>The wind picked up and rattled through the bare branches above them, sending a shower of ice crystals drifting down around their huddled figures. In the distance, an owl called once, twice, then fell silent.</p>
+          <p>"We should keep moving," Ron said. The cold had made his voice rough. "They could still be tracking us."</p>
+        </div>
+        <div class="page-number">— 182 —</div>
+      </div>
+    </div>
+
+    <!-- Right page (odd page) -->
+    <div class="page-right" id="page-right">
+      <div class="page-content" id="right-content">
+        <div class="page-header">
+          <div class="chapter-label">Harry Potter</div>
+          <div class="chapter-title">and the Deathly Hallows</div>
+        </div>
+        <div class="page-text" id="right-text">
+          <p>Harry nodded, but did not move at once. There was something pulling at him, something about this place that made him reluctant to leave. He pressed his hand flat against the cold stone of the grave and felt, very faintly, the magic that still lingered there — residue of a great life, a great man, reduced now to memory and cold marble.</p>
+          <p>"Right," he said at last, pulling his hand away. "You're right."</p>
+          <p>They Disapparated with three sharp cracks and left the churchyard empty, the moonlight falling silver and indifferent on Dumbledore's tomb, on the fresh-turned earth of Bathilda Bagshot's grave nearby, on the gravestones of James and Lily Potter, on the small plaque that read simply: <em>The last enemy that shall be destroyed is death.</em></p>
+          <p>Three streets away from the churchyard, they reappeared in a narrow alley smelling of refuse and damp stone. Harry pressed his back against the cold brick wall and breathed hard, his heart hammering.</p>
+          <p>"I'm fine," he said before either of them could ask. "I'm fine. Let's find somewhere to set up camp."</p>
+          <p>Hermione had already unzipped her beaded bag and was rummaging inside it. Ron stood watch at the entrance to the alley, his wand held loosely at his side.</p>
+        </div>
+        <div class="page-number">— 183 —</div>
+      </div>
+    </div>
+
+    <!-- Book spine -->
+    <div class="book-spine"></div>
+  </div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="reader-bottombar">
+  <button class="btn-nav" id="btn-prev" onclick="flipPage('back')">
+    <i class="fas fa-chevron-left"></i> Previous
+  </button>
+  <div class="page-indicator">
+    <div><strong id="page-display">182–183</strong></div>
+    <div>Chapter 18 of 36 · 18% complete</div>
+  </div>
+  <button class="btn-nav" id="btn-next" onclick="flipPage('forward')">
+    Next <i class="fas fa-chevron-right"></i>
+  </button>
+</div>
+
+<!-- SETTINGS PANEL -->
+<div class="settings-overlay" id="settings-overlay" onclick="closeSettingsOnBg(event)">
+  <div class="settings-panel" onclick="event.stopPropagation()">
+    <h5><i class="fas fa-sliders-h"></i> Reading Settings</h5>
+    <div class="setting-row">
+      <label>Font Size</label>
+      <div class="font-btns">
+        <button class="font-btn" onclick="setFontSize(14, this)">A-</button>
+        <button class="font-btn active" onclick="setFontSize(16, this)">A</button>
+        <button class="font-btn" onclick="setFontSize(18, this)">A+</button>
+        <button class="font-btn" onclick="setFontSize(20, this)">A++</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <label>Font</label>
+      <div class="font-btns">
+        <button class="font-btn active" onclick="setFont('Georgia', this)" style="font-family:Georgia">Serif</button>
+        <button class="font-btn" onclick="setFont('Segoe UI', this)" style="font-family:'Segoe UI'">Sans</button>
+        <button class="font-btn" onclick="setFont('Courier New', this)" style="font-family:'Courier New'">Mono</button>
+      </div>
+    </div>
+    <div class="setting-row">
+      <label>Page Color</label>
+      <div class="theme-btns">
+        <div class="theme-btn active" style="background:#fdf8f0; border:2px solid #c8a265" onclick="setTheme('#fdf8f0','#2a1f0e',this)"></div>
+        <div class="theme-btn" style="background:#1a1208" onclick="setTheme('#1a1208','#d4b896',this)"></div>
+        <div class="theme-btn" style="background:#e8f4e8" onclick="setTheme('#e8f4e8','#1a2e1a',this)"></div>
+        <div class="theme-btn" style="background:#f0e8ff" onclick="setTheme('#f0e8ff','#2a1e3e',this)"></div>
+      </div>
+    </div>
+    <div class="setting-row">
+      <label>Line Spacing</label>
+      <div class="font-btns">
+        <button class="font-btn" onclick="setSpacing(1.6, this)">Tight</button>
+        <button class="font-btn active" onclick="setSpacing(1.9, this)">Normal</button>
+        <button class="font-btn" onclick="setSpacing(2.2, this)">Wide</button>
+      </div>
+    </div>
+    <div class="setting-row" style="margin-top:1.2rem;margin-bottom:0">
+      <label>Animation Speed</label>
+      <div class="font-btns">
+        <button class="font-btn" onclick="setFlipSpeed(0.4, this)">Fast</button>
+        <button class="font-btn active" onclick="setFlipSpeed(0.7, this)">Normal</button>
+        <button class="font-btn" onclick="setFlipSpeed(1.1, this)">Slow</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOC PANEL -->
+<div class="toc-panel" id="toc-panel">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+    <h5 style="margin:0">Table of Contents</h5>
+    <button onclick="toggleToc()" style="background:none;border:none;color:rgba(255,255,255,0.5);cursor:pointer;font-size:1.1rem"><i class="fas fa-times"></i></button>
+  </div>
+  <div id="toc-list"></div>
+</div>
+
+<!-- KEYBOARD HINT -->
+<div class="key-hint" id="key-hint">← → arrow keys to turn pages</div>
+
+<script>
+// ── PAGE DATA ──
+const chapters = [
+  { num: 1, title: "The Dark Lord Ascending", pages: [2, 3] },
+  { num: 2, title: "In Memoriam", pages: [22, 23] },
+  { num: 3, title: "The Dursleys Departing", pages: [38, 39] },
+  { num: 4, title: "The Seven Potters", pages: [55, 56] },
+  { num: 5, title: "Fallen Warrior", pages: [71, 72] },
+  { num: 6, title: "The Ghoul in Pyjamas", pages: [87, 88] },
+  { num: 7, title: "The Will of Albus Dumbledore", pages: [103, 104] },
+  { num: 8, title: "The Wedding", pages: [121, 122] },
+  { num: 9, title: "A Place to Hide", pages: [139, 140] },
+  { num: 10, title: "Kreacher's Tale", pages: [155, 156] },
+  { num: 11, title: "The Bribe", pages: [168, 169] },
+  { num: 12, title: "Magic is Might", pages: [173, 174] },
+  { num: 13, title: "The Muggle-Born Registration Commission", pages: [177, 178] },
+  { num: 14, title: "The Thief", pages: [179, 180] },
+  { num: 15, title: "The Goblin's Revenge", pages: [181, 182] },
+  { num: 16, title: "Godric's Hollow", pages: [183, 184] },
+  { num: 17, title: "Bathilda's Secret", pages: [185, 186] },
+  { num: 18, title: "The Life and Lies of Albus Dumbledore", pages: [182, 183], current: true },
+];
+
+const pageContents = {
+  182: {
+    chapterLabel: "Chapter Eighteen",
+    chapterTitle: "The Life and Lies of Albus Dumbledore",
+    text: `<p>The forest was silent around them as Harry stared at the grave. He had not thought about Dumbledore's grave since he had come to visit it that night when Dumbledore had died, had lain in the white tomb on the grounds of Hogwarts. Now the place felt different somehow.</p>
+    <p>Hermione stood just behind him, not speaking, but he could feel her presence as he could always feel her presence, like a warm anchor in the darkness of the night. Ron was somewhere to his left, his feet crunching slightly in the frost.</p>
+    <p>"He trusted us," Harry said at last, his voice barely more than a whisper. "He left us all those clues and trusted us to figure it out."</p>
+    <p>"He left you those things because he believed in you," Hermione said softly. "He always believed in you, Harry."</p>
+    <p>The wind picked up and rattled through the bare branches above them, sending a shower of ice crystals drifting down around their huddled figures. In the distance, an owl called once, twice, then fell silent.</p>
+    <p>"We should keep moving," Ron said. The cold had made his voice rough. "They could still be tracking us."</p>`
+  },
+  183: {
+    chapterLabel: "Harry Potter",
+    chapterTitle: "and the Deathly Hallows",
+    text: `<p>Harry nodded, but did not move at once. There was something pulling at him, something about this place that made him reluctant to leave. He pressed his hand flat against the cold stone of the grave and felt, very faintly, the magic that still lingered there — residue of a great life, a great man, reduced now to memory and cold marble.</p>
+    <p>"Right," he said at last, pulling his hand away. "You're right."</p>
+    <p>They Disapparated with three sharp cracks and left the churchyard empty, the moonlight falling silver and indifferent on Dumbledore's tomb, on the fresh-turned earth of Bathilda Bagshot's grave nearby, on the gravestones of James and Lily Potter, on the small plaque that read simply: <em>The last enemy that shall be destroyed is death.</em></p>
+    <p>Three streets away from the churchyard, they reappeared in a narrow alley smelling of refuse and damp stone. Harry pressed his back against the cold brick wall and breathed hard, his heart hammering.</p>
+    <p>"I'm fine," he said before either of them could ask. "I'm fine. Let's find somewhere to set up camp."</p>
+    <p>Hermione had already unzipped her beaded bag and was rummaging inside it. Ron stood watch at the entrance to the alley, his wand held loosely at his side.</p>`
+  },
+  184: {
+    chapterLabel: "Chapter Eighteen",
+    chapterTitle: "The Life and Lies of Albus Dumbledore",
+    text: `<p>They found an abandoned park, its iron railings bent and rusted, and set up the tent inside the only copse of trees large enough to conceal it. Harry cast the protective enchantments while Hermione conjured three camp beds and Ron lit a small fire inside the tent, the smoke disappearing up into the sky harmlessly under one of her charms.</p>
+    <p>Nobody spoke much over dinner — tinned soup heated on the portable stove, eaten from their tin mugs in the wavering firelight. The enormity of what they still had to do pressed down on Harry like a physical weight, and he found it difficult to meet the eyes of either of his friends.</p>
+    <p>Hermione had retrieved Skeeter's book from her bag and set it on the camp table where they could all see it. The title stared up at them: <em>The Life and Lies of Albus Dumbledore.</em></p>
+    <p>"We have to read it," Hermione said. "Properly. All of it."</p>
+    <p>Ron poked at his soup without enthusiasm. "Tonight?"</p>
+    <p>"We've been putting it off," Harry said. He reached out and picked up the book. The cover showed a younger Dumbledore, his hair auburn rather than silver, his expression guarded and a little superior. "We've been afraid of what we might find."</p>`
+  },
+  185: {
+    chapterLabel: "Chapter Eighteen",
+    chapterTitle: "The Life and Lies of Albus Dumbledore",
+    text: `<p>Hermione sat down cross-legged on her camp bed and wrapped her hands around her mug. The firelight caught the gold lettering on the book's cover and made it gleam like something cursed.</p>
+    <p>"Skeeter's a liar," Ron said flatly. "We know that."</p>
+    <p>"She exaggerates and she distorts," Hermione agreed, "but she rarely invents things out of nothing. She needs a grain of truth to work from. That's what makes her dangerous." She paused. "That's what makes her interesting."</p>
+    <p>Harry opened the book to the first chapter. The title read: <em>The Greater Good: Dumbledore's Most Dangerous Ideas.</em></p>
+    <p>For a long time, there was no sound but the soft crackle of the fire and the distant call of a nightbird somewhere in the trees, and three young people reading by firelight in a stolen moment of peace in a war that would not wait.</p>
+    <p>At last Harry turned a page and found himself staring at a photograph he had never seen. It showed a younger Dumbledore and another young man, standing close together in a garden somewhere bright and southern-looking, laughing at something beyond the frame of the picture. The caption read: <em>Dumbledore and Grindelwald, the summer of 1899.</em></p>`
+  },
+  186: {
+    chapterLabel: "Chapter Nineteen",
+    chapterTitle: "The Silver Doe",
+    text: `<p>The weeks that followed were among the darkest Harry had ever known. The Horcrux sat heavy at all their necks by turns, its influence spreading like a cold fog through the tent, and they moved constantly, never staying in any one place more than a few days.</p>
+    <p>They argued. Of course they argued. Ron snapped at Hermione; Hermione cried silently in corners; Harry lay awake listening to his friends' uneasy sleep and staring at the canvas ceiling and wondering if Dumbledore had ever felt this lost, this purposeless, this afraid.</p>
+    <p>He had read the relevant chapters of Skeeter's book three times over. He had read them hoping to feel angry, and he had — briefly, brilliantly — and then the anger had faded and left behind something worse: doubt. A cold, settling uncertainty that worked its way into the cracks of everything he thought he knew.</p>
+    <p>Dumbledore had loved Grindelwald. Not just admired him or been seduced by his ideas or fallen under his influence, but loved him, with the full desperate love of a very clever, very isolated young man who has suddenly found an equal.</p>
+    <p>And for that love — or something like it — he had written: <em>For the Greater Good.</em></p>`
+  }
+};
+
+// ── STATE ──
+let currentLeftPage = 182;
+let currentRightPage = 183;
+let isFlipping = false;
+let flipSpeed = 0.7;
+const totalPages = 607;
+
+// ── BUILD TOC ──
+const tocList = document.getElementById('toc-list');
+chapters.forEach(ch => {
+  const div = document.createElement('div');
+  div.className = 'toc-item' + (ch.current ? ' active' : '');
+  div.innerHTML = `
+    <span class="toc-num">${ch.num}</span>
+    <span style="flex:1;line-height:1.3">${ch.title}</span>
+    <div class="toc-progress"><div class="toc-progress-fill" style="width:${ch.current ? '40' : ch.num < 18 ? '100' : '0'}%"></div></div>
+  `;
+  div.onclick = () => {
+    if (pageContents[ch.pages[0]]) {
+      currentLeftPage = ch.pages[0];
+      currentRightPage = ch.pages[1];
+      updatePageDisplay(false);
+      toggleToc();
+    }
+  };
+  tocList.appendChild(div);
+});
+
+// ── UPDATE DISPLAY ──
+function updatePageDisplay(animate) {
+  const left = pageContents[currentLeftPage];
+  const right = pageContents[currentRightPage];
+
+  if (left) {
+    document.getElementById('left-content').innerHTML = `
+      <div class="page-header">
+        <div class="chapter-label">${left.chapterLabel}</div>
+        <div class="chapter-title">${left.chapterTitle}</div>
+      </div>
+      <div class="page-text">${left.text}</div>
+      <div class="page-number">— ${currentLeftPage} —</div>
+    `;
+  }
+  if (right) {
+    document.getElementById('right-content').innerHTML = `
+      <div class="page-header">
+        <div class="chapter-label">${right.chapterLabel}</div>
+        <div class="chapter-title">${right.chapterTitle}</div>
+      </div>
+      <div class="page-text">${right.text}</div>
+      <div class="page-number">— ${currentRightPage} —</div>
+    `;
+  }
+
+  document.getElementById('page-display').textContent = `${currentLeftPage}–${currentRightPage}`;
+
+  const pct = Math.round((currentLeftPage / totalPages) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+
+  document.getElementById('btn-prev').disabled = currentLeftPage <= 2;
+  document.getElementById('btn-next').disabled = currentRightPage >= totalPages;
+}
+
+// ── FLIP ANIMATION ──
+function flipPage(direction) {
+  if (isFlipping) return;
+  isFlipping = true;
+
+  const book = document.getElementById('book');
+
+  // Create flipping element
+  const flipEl = document.createElement('div');
+  flipEl.className = `flip-container flip-${direction}`;
+  flipEl.style.animationDuration = `${flipSpeed}s`;
+
+  const frontFace = document.createElement('div');
+  frontFace.className = 'flip-face';
+  frontFace.innerHTML = direction === 'forward'
+    ? document.getElementById('page-right').innerHTML
+    : document.getElementById('page-left').innerHTML;
+
+  const backFace = document.createElement('div');
+  backFace.className = 'flip-face back';
+
+  // Calculate next page content for back
+  if (direction === 'forward') {
+    const np = pageContents[currentRightPage + 1];
+    if (np) {
+      backFace.innerHTML = `<div class="page-content">
+        <div class="page-header">
+          <div class="chapter-label">${np.chapterLabel}</div>
+          <div class="chapter-title">${np.chapterTitle}</div>
+        </div>
+        <div class="page-text">${np.text}</div>
+        <div class="page-number">— ${currentRightPage + 1} —</div>
+      </div>`;
+    }
+  } else {
+    const pp = pageContents[currentLeftPage - 1];
+    if (pp) {
+      backFace.innerHTML = `<div class="page-content">
+        <div class="page-header">
+          <div class="chapter-label">${pp.chapterLabel}</div>
+          <div class="chapter-title">${pp.chapterTitle}</div>
+        </div>
+        <div class="page-text">${pp.text}</div>
+        <div class="page-number">— ${currentLeftPage - 1} —</div>
+      </div>`;
+    }
+  }
+
+  flipEl.appendChild(frontFace);
+  flipEl.appendChild(backFace);
+  book.appendChild(flipEl);
+
+  // Update pages mid-animation
+  setTimeout(() => {
+    if (direction === 'forward') {
+      currentLeftPage += 2;
+      currentRightPage += 2;
+    } else {
+      currentLeftPage -= 2;
+      currentRightPage -= 2;
+    }
+    updatePageDisplay(false);
+  }, flipSpeed * 500);
+
+  // Remove flip element
+  setTimeout(() => {
+    book.removeChild(flipEl);
+    isFlipping = false;
+  }, flipSpeed * 1000);
+}
+
+// ── KEYBOARD ──
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'PageDown') flipPage('forward');
+  if (e.key === 'ArrowLeft' || e.key === 'PageUp') flipPage('back');
+});
+
+// ── BOOKMARK ──
+function toggleBookmark(el) {
+  const icon = document.getElementById('bookmark-icon');
+  if (icon.classList.contains('far')) {
+    icon.classList.remove('far'); icon.classList.add('fas');
+    el.style.color = '#c8a265';
+  } else {
+    icon.classList.remove('fas'); icon.classList.add('far');
+    el.style.color = '';
+  }
+}
+
+// ── SETTINGS ──
+function toggleSettings() {
+  document.getElementById('settings-overlay').classList.toggle('open');
+  document.getElementById('toc-panel').classList.remove('open');
+}
+function closeSettingsOnBg(e) {
+  if (e.target === document.getElementById('settings-overlay'))
+    document.getElementById('settings-overlay').classList.remove('open');
+}
+function setFontSize(size, btn) {
+  document.querySelectorAll('.page-text').forEach(el => el.style.fontSize = size + 'px');
+  btn.closest('.font-btns').querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setFont(font, btn) {
+  document.querySelectorAll('.page-text').forEach(el => el.style.fontFamily = font);
+  btn.closest('.font-btns').querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setTheme(bg, text, btn) {
+  document.querySelectorAll('.page-left, .page-right').forEach(el => el.style.background = bg);
+  document.querySelectorAll('.page-text').forEach(el => el.style.color = text);
+  btn.closest('.theme-btns').querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setSpacing(val, btn) {
+  document.querySelectorAll('.page-text').forEach(el => el.style.lineHeight = val);
+  btn.closest('.font-btns').querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+function setFlipSpeed(val, btn) {
+  flipSpeed = val;
+  btn.closest('.font-btns').querySelectorAll('.font-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── TOC ──
+function toggleToc() {
+  document.getElementById('toc-panel').classList.toggle('open');
+  document.getElementById('settings-overlay').classList.remove('open');
+}
+
+// ── KEY HINT ──
+setTimeout(() => {
+  const hint = document.getElementById('key-hint');
+  hint.classList.add('show');
+  setTimeout(() => hint.classList.remove('show'), 3500);
+}, 1500);
+
+// ── SWIPE SUPPORT ──
+let touchStartX = 0;
+document.getElementById('reading-area').addEventListener('touchstart', e => {
+  touchStartX = e.touches[0].clientX;
+});
+document.getElementById('reading-area').addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (dx < -50) flipPage('forward');
+  if (dx > 50) flipPage('back');
+});
+
+// Initial render
+updatePageDisplay(false);
+</script>
+</body>
+</html>

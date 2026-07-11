@@ -1,0 +1,12 @@
+# VS Code
+.vscode/
+
+# Node.js (لو موجود)
+node_modules/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
